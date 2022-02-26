@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 
+#Optimiser le design, gérer les variables de fenêtres...
+
 root=Tk()
 root.title('Bataille Navale')
 root.geometry("1000x1000")
