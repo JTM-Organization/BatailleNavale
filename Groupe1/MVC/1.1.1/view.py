@@ -5,10 +5,10 @@ def clic_plateau1(event):
     global tour
     print("tour=",tour)
     if tour == 1:
-        tour = 2
         i = event.y//taille_de_carres
         j = event.x//taille_de_carres
         if grille1[i][j] == 0:
+            tour = 2
             grille1[i][j] = 1
             plateau1.itemconfigure(i * 10 + j + 1, fill="#80ff00")
             print(grille1)
@@ -25,10 +25,10 @@ def clic_plateau2(event):
     global tour
     print("tour=",tour)
     if tour == 2:
-        tour = 1
         i = event.y//taille_de_carres
         j = event.x//taille_de_carres
         if grille2[i][j] == 0:
+            tour = 1
             grille2[i][j] = 1
             plateau2.itemconfigure(i * 10 + j + 1, fill="#80ff00")
             print(grille2)
@@ -93,6 +93,10 @@ def recommencer():
                 plateau2.itemconfigure(i * 10 + j + 1, fill="#097ade")
     reInitialisation()
     bouton1['state'] = DISABLED
+    label1['text'] = "Votre tour"
+    label1['bg'] = "green"
+    global tour
+    tour = 1
             
 def affichage():
     global main
