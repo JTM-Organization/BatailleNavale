@@ -23,21 +23,11 @@ def drag_motion(event):
 
 def identify(event):
     widget = event.widget
-    width = widget.winfo_width()
-    height = widget.winfo_height()
     x = widget.winfo_x()
     y = widget.winfo_y()
-    milieu_x = x + width//2
-    milieu_y = y + height//2
-    a = cnv.find_closest(x, y)
-    c = cnv.find_closest(milieu_x, milieu_y)
-    b = cnv.find_closest(x+TAILLE_CARRE//2, y+TAILLE_CARRE//2)
+    a = cnv.find_closest(x+TAILLE_CARRE//2, y+TAILLE_CARRE//2)
     coordonnes = cnv.coords(a)
-    coordonnes2 = cnv.coords(b)
-    coordonnes3 = cnv.coords(c)
-    print("NO=",coordonnes)
-    print("milieu=",coordonnes3)
-    widget.place(x=coordonnes2[0] + 1, y=coordonnes2[1] + 1)
+    widget.place(x=coordonnes[0] + 1, y=coordonnes[1] + 1)
 
 window = Tk()
 
@@ -93,5 +83,4 @@ canvas5.bind("<Button-3>",spiderman_do_a_flip)
 canvas5.bind("<B1-Motion>",drag_motion)
 canvas5.bind("<ButtonRelease-1>",identify)
 
-window.mainloop()
 window.mainloop()
