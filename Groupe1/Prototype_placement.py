@@ -25,17 +25,19 @@ def identify(event):
     widget = event.widget
     x = widget.winfo_x()
     y = widget.winfo_y()
-    a = cnv.find_closest(x+TAILLE_CARRE//2, y+TAILLE_CARRE//2)
-    coordonnes = cnv.coords(a)
-    widget.place(x=coordonnes[0] + 1, y=coordonnes[1] + 1)
+    new_x = x//TAILLE_CARRE*TAILLE_CARRE + DEP_X%TAILLE_CARRE
+    new_y = y//TAILLE_CARRE*TAILLE_CARRE + DEP_Y%TAILLE_CARRE
+    widget.place(x=new_x+1, y=new_y+1)
 
 window = Tk()
 
 DIMENSION = 600
 NBR_CARRE = 10
 TAILLE_CARRE = DIMENSION//NBR_CARRE
+DEP_X = 200
+DEP_Y = 200
 cnv = Canvas(window, width = DIMENSION, height = DIMENSION, bg="gray")
-cnv.place(x=0, y=0)
+cnv.place(x=DEP_X, y=DEP_Y)
 
 for i in range(NBR_CARRE):
     for j in range(NBR_CARRE):
