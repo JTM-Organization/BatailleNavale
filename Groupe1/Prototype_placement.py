@@ -4,9 +4,6 @@ from PIL import ImageTk, Image
 #trouver un moyen de redimensionner les images pour s'adapter à n'importe quel plateau
 #importer PIL pour le design???
 
-def co(event):
-    print(event.x, event.y)
-
 def spiderman_do_a_flip(event):
     widget = event.widget
     width = widget.winfo_width()
@@ -28,11 +25,27 @@ def identify(event):
     widget = event.widget
     x = widget.winfo_x()
     y = widget.winfo_y()
+    largeur = widget.winfo_width()
+    hauteur = widget.winfo_height()
     new_x = x//TAILLE_CARRE*TAILLE_CARRE + DEP_X%TAILLE_CARRE + 3
     new_y = y//TAILLE_CARRE*TAILLE_CARRE + DEP_Y%TAILLE_CARRE + 3
-    if DEP_X < new_x < DIMENSION + DEP_X and DEP_Y < new_y < DIMENSION + DEP_X:
+    if DEP_X < new_x < DIMENSION + DEP_X and DEP_Y < new_y < DIMENSION + DEP_X and x+largeur - TAILLE_CARRE//2 < DIMENSION + DEP_X  and y+hauteur - TAILLE_CARRE//2 < DIMENSION + DEP_Y :
         widget.place(x=new_x, y=new_y)
-    print(x,y)
+    else:
+        widget.place(x=0, y=0)
+    collision()
+    print(x,y,x+widget.winfo_width(),y+widget.winfo_height())
+
+def collision():
+    hit_box1 = [canvas1.winfo_x(), canvas1.winfo_y(), canvas1.winfo_x() + canvas1.winfo_width(), canvas1.winfo_y() + canvas1.winfo_height()]
+    hit_box2 = [canvas2.winfo_x(), canvas2.winfo_y(), canvas2.winfo_x() + canvas2.winfo_width(), canvas1.winfo_y() + canvas2.winfo_height()]
+    hit_box3 = [canvas3.winfo_x(), canvas3.winfo_y(), canvas3.winfo_x() + canvas3.winfo_width(), canvas1.winfo_y() + canvas3.winfo_height()]
+    hit_box4 = [canvas4.winfo_x(), canvas4.winfo_y(), canvas4.winfo_x() + canvas4.winfo_width(), canvas1.winfo_y() + canvas4.winfo_height()]
+    hit_box5 = [canvas5.winfo_x(), canvas5.winfo_y(), canvas5.winfo_x() + canvas5.winfo_width(), canvas1.winfo_y() + canvas5.winfo_height()]
+    if hit_box5[0]>hit_box4[2] or hit_box5[2]<hit_box4[0] or hit_box5[1]>hit_box4[3] or hit_box5[3]<hit_box4[1]:
+        print("ras")
+    else:
+        print("help")
 
 window = Tk()
 
@@ -90,7 +103,5 @@ canvas5.bind("<Button-1>",drag_start)
 canvas5.bind("<Button-3>",spiderman_do_a_flip)
 canvas5.bind("<B1-Motion>",drag_motion)
 canvas5.bind("<ButtonRelease-1>",identify)
-
-window.bind("<Button-1>",co)
 
 window.mainloop()
