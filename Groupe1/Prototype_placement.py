@@ -4,13 +4,11 @@ from PIL import ImageTk, Image
 #trouver un moyen de redimensionner les images pour s'adapter à n'importe quel plateau
 #importer PIL pour le design???
 
-def flip(event):
+def spiderman_do_a_flip(event):
     widget = event.widget
-    h=widget.winfo_width()
-    w=widget.winfo_height()
-    print(w)
-    widget.configure(width = 0, height = 0)
-    widget.configure(width=w, height=h)
+    width = widget.winfo_width()
+    height = widget.winfo_height()
+    widget.configure(width=height, height=width)
 
 def drag_start(event):
     widget = event.widget
@@ -25,15 +23,23 @@ def drag_motion(event):
 
 def identify(event):
     widget = event.widget
-    x=widget.winfo_x()
-    y=widget.winfo_y()
+    width = widget.winfo_width()
+    height = widget.winfo_height()
+    x = widget.winfo_x()
+    y = widget.winfo_y()
+    milieu_x = x + width//2
+    milieu_y = y + height//2
     a = cnv.find_closest(x, y)
+    c = cnv.find_closest(milieu_x, milieu_y)
+    b = cnv.find_closest(x+TAILLE_CARRE//2, y+TAILLE_CARRE//2)
     coordonnes = cnv.coords(a)
-    widget.place(x=coordonnes[0], y=coordonnes[1])
+    coordonnes2 = cnv.coords(b)
+    coordonnes3 = cnv.coords(c)
+    print("NO=",coordonnes)
+    print("milieu=",coordonnes3)
+    widget.place(x=coordonnes2[0] + 1, y=coordonnes2[1] + 1)
 
 window = Tk()
-img = PhotoImage(file='Submarine.png')
-img_zoom = img.subsample(8, 6)
 
 DIMENSION = 600
 NBR_CARRE = 10
@@ -47,62 +53,45 @@ for i in range(NBR_CARRE):
         A, B = (x, y), (x + TAILLE_CARRE, y + TAILLE_CARRE)
         carre1 = cnv.create_rectangle(A, B, fill="#097ade")
 
-label = Label(window, image=img_zoom, width=TAILLE_CARRE * 3, height=TAILLE_CARRE)
-label.place(x=0, y=0)
+canvas1 = Canvas(window, bg="gray", width=TAILLE_CARRE-1, height=TAILLE_CARRE*2-1, bd=0, highlightthickness=0)
+canvas1.place(x=800, y=0)
 
-label2 = Label(window, bg="blue", width=10, height=5)
-label2.place(x=100, y=0)
+canvas2 = Canvas(window, bg="green", width=TAILLE_CARRE-1, height=TAILLE_CARRE*3-1, bd=0, highlightthickness=0)
+canvas2.place(x=900, y=0)
 
-label3 = Label(window, bg="green", width=10, height=10)
-label3.place(x=200, y=0)
+canvas3 = Canvas(window, bg="yellow", width=TAILLE_CARRE-1, height=TAILLE_CARRE*3-1, bd=0, highlightthickness=0)
+canvas3.place(x=1000, y=0)
 
-label4 = Label(window, bg="red", width=10, height=10)
-label4.place(x=300, y=0)
+canvas4 = Canvas(window, bg="purple", width=TAILLE_CARRE-1, height=TAILLE_CARRE*4-1, bd=0, highlightthickness=0)
+canvas4.place(x=1100, y=0)
 
-label5 = Label(window, bg="purple", width=10, height=10)
-label5.place(x=400, y=0)
-
-canvas1 = Canvas(window, bg="gray", width=60, height=60)
-canvas1.place(x=500, y=0)
+canvas5 = Canvas(window, bg="orange", width=TAILLE_CARRE-1, height=TAILLE_CARRE*5-1, bd=0, highlightthickness=0)
+canvas5.place(x=1200, y=0)
 
 canvas1.bind("<Button-1>",drag_start)
-canvas1.bind("<Button-3>",flip)
+canvas1.bind("<Button-3>",spiderman_do_a_flip)
 canvas1.bind("<B1-Motion>",drag_motion)
 canvas1.bind("<ButtonRelease-1>",identify)
 
-label.bind("<Button-1>",drag_start)
-label.bind("<Button-3>",flip)
-label.bind("<B1-Motion>",drag_motion)
-label.bind("<ButtonRelease-1>",identify)
+canvas2.bind("<Button-1>",drag_start)
+canvas2.bind("<Button-3>",spiderman_do_a_flip)
+canvas2.bind("<B1-Motion>",drag_motion)
+canvas2.bind("<ButtonRelease-1>",identify)
 
-label2.bind("<Button-1>",drag_start)
-label2.bind("<Button-3>",flip)
-label2.bind("<B1-Motion>",drag_motion)
-label2.bind("<ButtonRelease-1>",identify)
+canvas3.bind("<Button-1>",drag_start)
+canvas3.bind("<Button-3>",spiderman_do_a_flip)
+canvas3.bind("<B1-Motion>",drag_motion)
+canvas3.bind("<ButtonRelease-1>",identify)
 
-label3.bind("<Button-1>",drag_start)
-label3.bind("<Button-3>",flip)
-label3.bind("<B1-Motion>",drag_motion)
-label3.bind("<ButtonRelease-1>",identify)
+canvas4.bind("<Button-1>",drag_start)
+canvas4.bind("<Button-3>",spiderman_do_a_flip)
+canvas4.bind("<B1-Motion>",drag_motion)
+canvas4.bind("<ButtonRelease-1>",identify)
 
-label4.bind("<Button-1>",drag_start)
-label4.bind("<Button-3>",flip)
-label4.bind("<B1-Motion>",drag_motion)
-label4.bind("<ButtonRelease-1>",identify)
+canvas5.bind("<Button-1>",drag_start)
+canvas5.bind("<Button-3>",spiderman_do_a_flip)
+canvas5.bind("<B1-Motion>",drag_motion)
+canvas5.bind("<ButtonRelease-1>",identify)
 
-label5.bind("<Button-1>",drag_start)
-label5.bind("<Button-3>",flip)
-label5.bind("<B1-Motion>",drag_motion)
-label5.bind("<ButtonRelease-1>",identify)
-
-
-X=label5.winfo_x()
-Y=label5.winfo_y()
-print(x,y)
 window.mainloop()
-label2.bind("<Button-1>",drag_start)
-label2.bind("<B1-Motion>",drag_motion)
-label2.bind("<ButtonRelease-1>",identify)
-
-
 window.mainloop()
