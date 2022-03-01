@@ -132,7 +132,7 @@ def placer_boutons():
     bouton2.place(relx = 0.5, rely = 0.055, anchor='center')
     global bouton3
     bouton3 = Button(root, text="Confirmer", command=confirmer_placement)
-    bouton3.place(relx = 0.5, rely = 0.75, anchor='center')
+    bouton3.place(x = 1, y = 20)
     
 def placer_label():
     global label1
@@ -173,7 +173,6 @@ def recommencer():
     global tour
     tour = 1
 
-#Confirmation de la mise en place des bateaux:
 def confirmer_placement():
     x1 = (canvas1.winfo_y() - dep_y)//taille_de_carres
     y1 = (canvas1.winfo_x() - dep_x)//taille_de_carres
@@ -196,57 +195,62 @@ def confirmer_placement():
     width5 = canvas5.winfo_width()
     height5 = canvas5.winfo_height()
 
-    if (width1 > height1):
-        for i in range(width1//height1):
-            grille1[x1][y1+i] = 3
-            plateau1.itemconfigure(x1 * 10 + y1+i + 1, fill="gray")
-    elif (width1 < height1):
-        for i in range(height1//width1):
-            grille1[x1+i][y1] = 3
-            plateau1.itemconfigure((x1+i) * 10 + y1 + 1, fill="gray")
+    if (x1 and y1 <= 9):
+        if (width1 > height1):
+            for i in range(width1//height1):
+                grille1[x1][y1+i] = 3
+                plateau1.itemconfigure(x1 * 10 + y1+i + 1, fill="gray")
+        elif (width1 < height1):
+            for i in range(height1//width1):
+                grille1[x1+i][y1] = 3
+                plateau1.itemconfigure((x1+i) * 10 + y1 + 1, fill="gray")
 
-    if (width2 > height2):
-        for i in range(width2//height2):
-            grille1[x2][y2+i] = 3
-            plateau1.itemconfigure(x2 * 10 + y2+i + 1, fill="gray")
-    elif (width2 < height2):
-        for i in range(height2//width2):
-            grille1[x2+i][y2] = 3
-            plateau1.itemconfigure((x2+i) * 10 + y2 + 1, fill="gray")
+    if (x2 and y2 <= 9):
+        if (width2 > height2):
+            for i in range(width2//height2):
+                grille1[x2][y2+i] = 3
+                plateau1.itemconfigure(x2 * 10 + y2+i + 1, fill="gray")
+        elif (width2 < height2):
+            for i in range(height2//width2):
+                grille1[x2+i][y2] = 3
+                plateau1.itemconfigure((x2+i) * 10 + y2 + 1, fill="gray")
     
-    if (width3 > height3):
-        for i in range(width3//height3):
-            grille1[x3][y3+i] = 3
-            plateau1.itemconfigure(x3 * 10 + y3+i + 1, fill="gray")
-    elif (width3 < height3):
-        for i in range(height3//width3):
-            grille1[x3+i][y3] = 3
-            plateau1.itemconfigure((x3+i) * 10 + y3 + 1, fill="gray")
+    if (x3 and y3 <= 9):
+        if (width3 > height3):
+            for i in range(width3//height3):
+                grille1[x3][y3+i] = 3
+                plateau1.itemconfigure(x3 * 10 + y3+i + 1, fill="gray")
+        elif (width3 < height3):
+            for i in range(height3//width3):
+                grille1[x3+i][y3] = 3
+                plateau1.itemconfigure((x3+i) * 10 + y3 + 1, fill="gray")
     
-    if (width4 > height4):
-        for i in range(width4//height4):
-            grille1[x4][y4+i] = 3
-            plateau1.itemconfigure(x4 * 10 + y4+i + 1, fill="gray")
-    elif (width4 < height4):
-        for i in range(height4//width4):
-            grille1[x4+i][y4] = 3
-            plateau1.itemconfigure((x4+i) * 10 + y4 + 1, fill="gray")
+    if (x4 and y4 <= 9):
+        if (width4 > height4):
+            for i in range(width4//height4):
+                grille1[x4][y4+i] = 3
+                plateau1.itemconfigure(x4 * 10 + y4+i + 1, fill="gray")
+        elif (width4 < height4):
+            for i in range(height4//width4):
+                grille1[x4+i][y4] = 3
+                plateau1.itemconfigure((x4+i) * 10 + y4 + 1, fill="gray")
 
-    if (width5 > height5):
-        for i in range(width5//height5):
-            grille1[x5][y5+i] = 3
-            plateau1.itemconfigure(x5 * 10 + y5+i + 1, fill="gray")
-    elif (width5 < height5):
-        for i in range(height5//width5):
-            grille1[x5+i][y5] = 3
-            plateau1.itemconfigure((x5+i) * 10 + y5 + 1, fill="gray")
+    if (x5 and y5 <= 9):
+        if (width5 > height5):
+            for i in range(width5//height5):
+                grille1[x5][y5+i] = 3
+                plateau1.itemconfigure(x5 * 10 + y5+i + 1, fill="gray")
+        elif (width5 < height5):
+            for i in range(height5//width5):
+                grille1[x5+i][y5] = 3
+                plateau1.itemconfigure((x5+i) * 10 + y5 + 1, fill="gray")
 
     compteur = 0
     for i in range(nombre_de_carres):
         for j in range(nombre_de_carres):
             if grille1[i][j] == 3:
                 compteur += 1
-    
+
     if (compteur != 17):
         recommencer()
         canvas1.place(x=630, y=320)
