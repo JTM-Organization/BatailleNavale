@@ -60,9 +60,13 @@ def drag_motion(event):
 
 def spiderman_do_a_flip(event):
     widget = event.widget
+    x = widget.winfo_x()
+    y = widget.winfo_y()
     width = widget.winfo_width()
     height = widget.winfo_height()
-    widget.configure(width=height, height=width)
+    if (x + height <= 620) and (y + width <= 710) :
+        widget.configure(width=height, height=width)
+
 
 def identify(event):
     widget = event.widget
