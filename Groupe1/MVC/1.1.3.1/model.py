@@ -24,6 +24,9 @@ global grille
 grille1 = [[0 for colonne in range(nombre_de_carres)] for ligne in range(nombre_de_carres)]
 grille2 = [[0 for colonne in range(nombre_de_carres)] for ligne in range(nombre_de_carres)]
 
+global compteur
+compteur = 0
+
 global score
 score = 0  
 
@@ -31,7 +34,7 @@ global vainqueur
 vainqueur = 1
 
 global tour
-tour = 1
+tour = 2
 
 global plateau1
 global plateau2
@@ -72,7 +75,13 @@ def abandon_de_partie():
 
 def victoire():
     global vainqueur
-    if grille1[0][0]==1:
+    global compteur
+    compteur = 0
+    for i in range(nombre_de_carres):
+        for j in range(nombre_de_carres):
+            if grille1[i][j] == 2:
+                compteur += 1
+    if compteur == 17:
         vainqueur = 0
     return vainqueur
 

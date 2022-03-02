@@ -1,6 +1,7 @@
 #placer ici la gestion de l'interface graphique
-from tkinter import ANCHOR, CENTER
+from tkinter import ANCHOR, CENTER, Canvas
 from model import *
+from random import *
 
 #Réalisation des tirs (alliés et ennemis) :
 def clic_plateau1(event):
@@ -12,28 +13,16 @@ def clic_plateau1(event):
         if grille1[i][j] == 0:
             tour = 2
             grille1[i][j] = 1
-            plateau1.itemconfigure(i * 10 + j + 1, fill="#80ff00")
+            plateau1.itemconfigure(i * 10 + j + 1, fill="white")
             print(grille1)
             print("Ligne=", i + 1, "Colonne=", j + 1)
-            label1['text'] = "Tour de l'adversaire"
-            label1['bg'] = "red"
-        else:
-            print("Veuillez sélectionner une autre case")
-        test_victoire()
-    else:
-        print("Ce n'est pas votre tour")
-    
-def clic_plateau2(event):
-    global tour
-    print("tour=",tour)
-    if tour == 2:
-        i = event.y//taille_de_carres
-        j = event.x//taille_de_carres
-        if grille2[i][j] == 0:
-            tour = 1
-            grille2[i][j] = 1
-            plateau2.itemconfigure(i * 10 + j + 1, fill="#80ff00")
-            print(grille2)
+            label1['text'] = "Votre tour"
+            label1['bg'] = "green"
+        elif grille1[i][j] == 3:
+            tour = 2
+            grille1[i][j] = 2
+            plateau1.itemconfigure(i * 10 + j + 1, fill="red")
+            print(grille1)
             print("Ligne=", i + 1, "Colonne=", j + 1)
             label1['text'] = "Votre tour"
             label1['bg'] = "green"
@@ -42,10 +31,48 @@ def clic_plateau2(event):
         test_victoire()
     else:
         print("Ce n'est pas votre tour")
+    
+def clic_plateau2(event):
+    global tour
+    if tour == 2:
+        i = event.y//taille_de_carres
+        j = event.x//taille_de_carres
+        if grille2[i][j] == 0:
+            tour = 1
+            grille2[i][j] = 1
+            plateau2.itemconfigure(i * 10 + j + 1, fill="white")
+            label1['text'] = "Tour de l'adversaire"
+            label1['bg'] = "red"
+        else:
+            print("Veuillez sélectionner une autre case")
+        test_victoire()
+    else:
+        print("Ce n'est pas votre tour")
 
-#fonction bind?        
-plateau1.bind("<Button-1>", clic_plateau1)
-plateau2.bind("<Button-1>", clic_plateau2)
+def tirs_facile():
+    global tour
+    if tour == 1 :
+        i = randint(0,9)
+        j = randint(0,9)
+        while grille1[i][j] == 1 or grille1[i][j] == 2:
+            i = randint(0,9)
+            j = randint(0,9)
+
+        if grille1[i][j] == 0:
+            tour = 2
+            grille1[i][j] = 1
+            plateau1.itemconfigure(i * 10 + j + 1, fill="white")
+            print("Ligne=", i + 1, "Colonne=", j + 1)
+            label1['text'] = "Votre tour"
+            label1['bg'] = "green"
+        elif grille1[i][j] == 3:
+            tour = 2
+            grille1[i][j] = 2
+            plateau1.itemconfigure(i * 10 + j + 1, fill="red")
+            print("Ligne=", i + 1, "Colonne=", j + 1)
+            label1['text'] = "Votre tour"
+            label1['bg'] = "green"
+        test_victoire()
 
 #Mise en place des bateaux :
 def drag_start(event):
@@ -122,7 +149,7 @@ def remplir_plateau2():
             A, B = (x, y), (x + taille_de_carres, y + taille_de_carres)
             carre2=plateau2.create_rectangle(A, B, fill = "#097ade")
 
-#Créations des boutons et des zones de texte :            
+#Créations des boutons et des zones de texte :
 def placer_boutons():
     global bouton1
     bouton1 = Button(root, text="Rejouer", command=recommencer, state=DISABLED)
@@ -132,7 +159,10 @@ def placer_boutons():
     bouton2.place(relx = 0.5, rely = 0.055, anchor='center')
     global bouton3
     bouton3 = Button(root, text="Confirmer", command=confirmer_placement)
-    bouton3.place(x = 1, y = 20)
+    bouton3.place(relx = 0.5, rely = 0.75, anchor='center')
+    global bouton4
+    bouton4 = Button(root, text="Ordi", command=tirs_facile)
+    bouton4.place(x = 295, y = 50)
     
 def placer_label():
     global label1
@@ -149,6 +179,7 @@ def placer_label():
 #En effet, bouton n'y est pas défini
 def test_victoire():
     global score
+    score = 0
     vainqueur = victoire()
     if (vainqueur == 0):
         fin_de_partie()
@@ -172,6 +203,29 @@ def recommencer():
     label_victoire['text']=""
     global tour
     tour = 1
+
+def test_placement():
+    compteur = 0
+    for i in range(nombre_de_carres):
+        for j in range(nombre_de_carres):
+            if grille1[i][j] == 3:
+                compteur += 1
+
+    if (compteur != 17):
+        recommencer()
+        canvas1.place(x=630, y=320)
+        canvas2.place(x=630, y=122)
+        canvas3.place(x=700, y=122)
+        canvas4.place(x=770, y=122)
+        canvas5.place(x=840, y=122)
+    elif (compteur == 17):
+        plateau2.bind("<Button-1>", clic_plateau2)
+        canvas1.place(x=1800, y=1800)
+        canvas2.place(x=1800, y=1800)
+        canvas3.place(x=1800, y=1800)
+        canvas4.place(x=1800, y=1800)
+        canvas5.place(x=1800, y=1800)
+        bouton3.destroy()
 
 def confirmer_placement():
     x1 = (canvas1.winfo_y() - dep_y)//taille_de_carres
@@ -245,19 +299,7 @@ def confirmer_placement():
                 grille1[x5+i][y5] = 3
                 plateau1.itemconfigure((x5+i) * 10 + y5 + 1, fill="gray")
 
-    compteur = 0
-    for i in range(nombre_de_carres):
-        for j in range(nombre_de_carres):
-            if grille1[i][j] == 3:
-                compteur += 1
-
-    if (compteur != 17):
-        recommencer()
-        canvas1.place(x=630, y=320)
-        canvas2.place(x=630, y=122)
-        canvas3.place(x=700, y=122)
-        canvas4.place(x=770, y=122)
-        canvas5.place(x=840, y=122)
+    test_placement()
 
 def affichage():
     global main
