@@ -1,7 +1,8 @@
+from inspect import Parameter
 from tkinter import *
 from tkinter import ttk
+from tkinter import colorchooser    
 
-#Optimiser le design, gérer les variables de fenêtres...
 
 root=Tk()
 root.title('Bataille Navale')
@@ -22,7 +23,7 @@ def select_jouer():
         nb.hide(0)
         nb.hide(2)
 
-def select_réglages():
+def select_paramètres():
     nb.select(3)
     nb.hide(0)
     
@@ -39,23 +40,23 @@ def select_retour():
 Base = Frame(nb, width=960, height=1000, bg="black")
 Jeu = Frame(nb, width=960, height=1000)
 Jeu2 = Frame(nb, width=960, height=1000)
-Réglages = Frame(nb, width=960, height=1000)
+Paramètres = Frame(nb, width=960, height=1000)
 Debut=Frame(nb,width=2000,height=2000)
 
 Base.pack()
 Jeu.pack()
 Jeu2.pack()
-Réglages.pack()
+Paramètres.pack()
 Debut.pack()
 
 nb.add(Base)
 nb.add(Jeu)
 nb.add(Jeu2)
-nb.add(Réglages)
+nb.add(Paramètres)
 nb.add(Debut)
 
 Jouer = Button(Base, text="Jouer", command=select_jouer)
-Options = Button(Base, text="Options", command=select_réglages)
+Options = Button(Base, text="Paramètres", command=select_paramètres)
 Quitter = Button(Base, text="Quitter", command=root.quit)
 Jouer.pack()
 Options.pack()
@@ -65,7 +66,7 @@ Plateau1 = Button(Jeu2, text="Retourner sur votre plateau", command=select_jouer
 Plateau2 = Button(Jeu, text="Observer le plateau de l'adversaire", command=select_plateau2)
 Retour1 = Button(Jeu, text="Retour", command=select_retour)
 Retour2 = Button(Jeu2, text="Retour", command=select_retour)
-Retour3 = Button(Réglages, text="Retour", command=select_retour)
+Retour3 = Button(Paramètres, text="Retour", command=select_retour)
 Plateau1.pack()
 Plateau2.pack()
 Retour1.pack()
@@ -93,6 +94,7 @@ M1=[[0 for i in range(10)] for j in range(10)]
 
 cnv1 = Canvas(Jeu, width = 2000, height = 2000)
 cnv2 = Canvas(Jeu2, width = 2000, height = 2000)
+cnvParamètres = Canvas(Paramètres, width = 2000, height = 2000)
 cnvdebut=Canvas(Debut,width=2000,height=2000)
 cnv1.pack()
 cnv2.pack()
@@ -250,8 +252,4 @@ cnvdebut.bind("<ButtonRelease-3>",lacher2)
 root.mainloop()
 
 #arrondir x et y, diviser par 80.
-#print(cnv.coords(rect))
-
-
-
-
+#print(cnv.coords(rect)
