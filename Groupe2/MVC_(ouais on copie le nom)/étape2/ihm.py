@@ -81,7 +81,7 @@ def start():
             L1[i*10+j].append(w1)
             l=cnvdebut.create_rectangle(i*80+500,j*80+20,i*80+500+80,j*80+20+80)
         for k in range(2):
-            labelChiffre= Label(cnv1,text=str(i))
+            labelChiffre= Label(cnv1,text=str(i+1))
             labelChiffre.place(x=(i+1)*taille+taille*1.3+(k*taille*16),y=-5)
             labelLettre=Label(cnv1,text=lettre[i])
             labelLettre.place(x=3*taille/2+(k*taille*16),y=i*taille+taille*0.8)
