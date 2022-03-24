@@ -4,15 +4,18 @@ Base = Frame(nb, width=largeur, height=hauteur, bg="black")
 Plateau = Frame(nb, width=largeur, height=hauteur)
 Parametres = Frame(nb, width=largeur, height=hauteur,bg="#AAAAAA")
 Debut=Frame(nb,width=largeur,height=hauteur)
+Fin=Frame(nb,width=largeur,height=hauteur)
 Base.pack()
 Plateau.pack()
 Parametres.pack()
 Debut.pack()
+Fin.pack()
 
 nb.add(Base)
 nb.add(Plateau)
 nb.add(Parametres)
 nb.add(Debut)
+nb.add(Fin)
 
 def select_jouer():
     global debut
@@ -54,28 +57,33 @@ Retour3.pack()
 
 nb.hide(1)
 nb.hide(2)
+nb.hide(3)
 
 
 cnv1 = Canvas(Plateau, width = largeur, height = hauteur)
 cnvParametres = Canvas(Parametres, width = largeur, height = hauteur)
 cnvdebut=Canvas(Debut,width=largeur,height=hauteur)
+cnvfin=Canvas(Fin,width=largeur,height=hauteur)
 
 cnv1.pack()
 cnvParametres.pack()
 cnvdebut.pack()
+cnvfin.pack()
 
 def tirerJoueur(k):
-    global M2,listeCouleur,L1,M1
+    global M2,listeCouleur,L1,M1,victoireJoueur,victoireBot
     if M2[k%10][k//10]==0:
         M2[k%10][k//10]=2
     w1=Button(cnv1,bg=str(listeCouleur[int(M2[k%10][k//10])]),command=lambda k=k: tirerJoueur(k))
     L1[k][0].place_forget()
     L1[k][0]=w1
     w1.place(x=(k//10+1)*taille+taille,y=k%10*taille+20,height=taille,width=taille)
-    #placer coord ici
     if M2[k%10][k//10]==1:
         labelTouche=Label(cnv1,text="touché")
         labelTouche.place(x=taille*14,y=taille*6,height=taille,width=taille*1.5)
+        victoireJoueur-=1
+        if victoireJoueur==0:
+            victoire("joueur")
     else:
         labelTouche=Label(cnv1,text="à l'eau")
         labelTouche.place(x=taille*14,y=taille*6,height=taille,width=taille*1.5)
@@ -83,16 +91,28 @@ def tirerJoueur(k):
     y=random.randint(0,9)
     if M1[x][y]==0:
         M1[x][y]=2
-        labelTouche=Label(cnv1,text="à l'eau")
-        labelTouche.place(x=taille*14,y=taille*6,height=taille,width=taille*1.5)
+        labelToucheBot=Label(cnv1,text="à l'eau")
+        labelToucheBot.place(x=taille*14,y=taille*7,height=taille,width=taille*1.5)
     elif M1[x][y]==1:
         M1[x][y]=3
-        labelTouche=Label(cnv1,text="touché")
-        labelTouche.place(x=taille*14,y=taille*6,height=taille,width=taille*1.5)
+        labelToucheBot=Label(cnv1,text="touché")
+        labelToucheBot.place(x=taille*14,y=taille*7,height=taille,width=taille*1.5)
+        victoireBot-=1
+        if victoireJoueur==0:
+            victoire("bot")
     t=cnv1.find_closest(y*taille+taille*18.5, x*taille+20+taille*0.5)
     cnv1.delete(t[0])
     carre=cnv1.create_rectangle(y*taille+taille*18,x*taille+20,y*taille+taille*19,(x+1)*taille+20,fill=str(listeCouleurBoard[int(M1[x][y])]))
     
+def victoire(participant):
+    nb.hide(1)
+    nb.select(4)
+    if participant=="joueur":
+        labelFin=Label(cnvfin,text="Victoire du joueur")
+    else:
+        labelFin=Label(cnvfin,text="Victoire du bot")
+    labelFin.place(x=taille*14,y=taille*6.5)
+
 def start():
     global L1,listeCouleur,taille,lettre,rect,M2
     for i in range(10):
@@ -146,13 +166,11 @@ def clic2(event):
                 hOuV-=1
 
 def glisser(event):
-    #voir exo4 corrigé
     global rect
     if event.x>cnvdebut.coords(rect)[0] and event.x<cnvdebut.coords(rect)[2] and event.y>cnvdebut.coords(rect)[1] and event.y<cnvdebut.coords(rect)[3]:
         cnvdebut.move(rect, event.x-old[0], event.y-old[1])
         old[0]=event.x
         old[1]=event.y
-
 
 def lacher(event):
     global rect,M1,currentLengthShip,tailleBateau,compteur,pasBouger
@@ -161,7 +179,6 @@ def lacher(event):
     flag=True
     if x>5 and x<16 and y>=0 and y<10:
         for i in range(currentLengthShip):
-            #vérification pour voir si il n'y a pas déjà un carré
             if hOuV==1:
                 if M1[y+i][x-6]==1:
                     flag=False
@@ -184,9 +201,9 @@ def lacher(event):
         if flag==True:
             compteur+=1
             currentLengthShip=tailleBateau[compteur]
-        cnvdebut.move(rect,-cnvdebut.coords(rect)[0],-cnvdebut.coords(rect)[1])
-        supprimerRect()
-        drawRect(hOuV)
+            cnvdebut.move(rect,-cnvdebut.coords(rect)[0],-cnvdebut.coords(rect)[1])
+            supprimerRect()
+            drawRect(hOuV)
     else:
         if flag==True:
             for i in range(10):
@@ -194,10 +211,8 @@ def lacher(event):
                     carre=cnv1.create_rectangle(j*taille+taille*18,i*taille+20,j*taille+taille*19,(i+1)*taille+20,fill=str(listeCouleurBoard[int(M1[i][j])]))
             nb.hide(3)
             nb.select(1)
-        else:
-            cnvdebut.move(rect,-cnvdebut.coords(rect)[0],-cnvdebut.coords(rect)[1])
-            supprimerRect()
-            drawRect(hOuV)
+        
+            
     pasBouger=False
 
 old=[None,None]
