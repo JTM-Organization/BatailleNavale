@@ -74,3 +74,7 @@ M2=[[0 for i in range(10)] for j in range(10)]
 
 global pasBouger
 pasBouger=False
+
+global victoireBot, victoireJoueur
+victoireBot=17
+victoireJoueur=17
