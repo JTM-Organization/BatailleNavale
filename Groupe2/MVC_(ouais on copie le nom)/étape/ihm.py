@@ -22,15 +22,17 @@ def select_jouer():
     if debut==False:
         
         start()
-        plateauBotAléatoire()
+        plateauBotAleatoire()
         nb.hide(0)
         nb.select(3)
         debut=True
         
     else:
+        reecrire()
         nb.select(1)
         nb.hide(0)
         nb.hide(2)
+        
 
 def select_paramètres():
     nb.select(2)
@@ -60,10 +62,10 @@ nb.hide(2)
 nb.hide(3)
 
 
-cnv1 = Canvas(Plateau, width = largeur, height = hauteur)
+cnv1 = Canvas(Plateau, width = largeur, height = hauteur,bg="#0070D0")
 cnvParametres = Canvas(Parametres, width = largeur, height = hauteur)
-cnvdebut=Canvas(Debut,width=largeur,height=hauteur)
-cnvfin=Canvas(Fin,width=largeur,height=hauteur)
+cnvdebut=Canvas(Debut,width=largeur,height=hauteur,bg='grey')
+cnvfin=Canvas(Fin,width=largeur,height=hauteur,bg='grey')
 
 cnv1.pack()
 cnvParametres.pack()
@@ -71,149 +73,176 @@ cnvdebut.pack()
 cnvfin.pack()
 
 def tirerJoueur(k):
-    global M2,listeCouleur,L1,M1,victoireJoueur,victoireBot
+    global M2,listeCouleur,L1,M1,victoireJoueur,victoireBot,testVictoire,lettre
     if M2[k%10][k//10]==0:
         M2[k%10][k//10]=2
-    w1=Button(cnv1,bg=str(listeCouleur[int(M2[k%10][k//10])]),command=lambda k=k: tirerJoueur(k))
-    L1[k][0].place_forget()
-    L1[k][0]=w1
-    w1.place(x=(k//10+1)*taille+taille,y=k%10*taille+20,height=taille,width=taille)
+    L1[k][0].destroy()
+    L1[k][0]=69
+    x=(k//10+1)*taille+taille
+    y=k%10*taille+40
+    w2=cnv1.create_rectangle(x,y,x+taille,y+taille,fill=str(listeCouleur[int(M2[k%10][k//10])]))
     if M2[k%10][k//10]==1:
-        labelTouche=Label(cnv1,text="touché")
-        labelTouche.place(x=taille*14,y=taille*6,height=taille,width=taille*1.5)
+        labelTouche=Label(cnv1,text="Vous tirez sur la case \n"+lettre[k//10]+str(k%10)+": touchée",bg="#0070D0")
+        labelTouche.place(x=taille*13.5,y=taille*3,height=taille,width=taille*3)
         victoireJoueur-=1
         if victoireJoueur==0:
             victoire("joueur")
     else:
-        labelTouche=Label(cnv1,text="à l'eau")
-        labelTouche.place(x=taille*14,y=taille*6,height=taille,width=taille*1.5)
-    x=random.randint(0,9)
-    y=random.randint(0,9)
-    if M1[x][y]==0:
-        M1[x][y]=2
-        labelToucheBot=Label(cnv1,text="à l'eau")
-        labelToucheBot.place(x=taille*14,y=taille*7,height=taille,width=taille*1.5)
-    elif M1[x][y]==1:
-        M1[x][y]=3
-        labelToucheBot=Label(cnv1,text="touché")
-        labelToucheBot.place(x=taille*14,y=taille*7,height=taille,width=taille*1.5)
-        victoireBot-=1
-        if victoireJoueur==0:
-            victoire("bot")
-    t=cnv1.find_closest(y*taille+taille*18.5, x*taille+20+taille*0.5)
-    cnv1.delete(t[0])
-    carre=cnv1.create_rectangle(y*taille+taille*18,x*taille+20,y*taille+taille*19,(x+1)*taille+20,fill=str(listeCouleurBoard[int(M1[x][y])]))
+        labelTouche=Label(cnv1,text="Vous tirez sur la case \n"+lettre[k//10]+str(k%10)+": à l'eau",bg="#0070D0")
+        labelTouche.place(x=taille*13.5,y=taille*3,height=taille,width=taille*3)
+    flag=True
+    if testVictoire:
+        flag=False
+    while flag:
+        ordonnee=random.randint(0,9)
+        abscisse=random.randint(0,9)
+        if M1[ordonnee][abscisse]==0:
+            M1[ordonnee][abscisse]=2
+            labelToucheBot=Label(cnv1,text="Le bot a tiré sur la case \n"+lettre[ordonnee]+str(abscisse)+": touchée",bg="#0070D0")
+            labelToucheBot.place(x=taille*13.5,y=taille*5,height=taille,width=taille*3)
+            flag=False
+        elif M1[ordonnee][abscisse]==1:
+            M1[ordonnee][abscisse]=3
+            labelToucheBot=Label(cnv1,text="Le bot a tiré sur la case \n"+lettre[ordonnee]+str(abscisse)+": à l'eau",bg="#0070D0")
+            labelToucheBot.place(x=taille*13.5,y=taille*5,height=taille,width=taille*3)
+            victoireBot-=1
+            flag=False
+            if victoireBot==0:
+                victoire("bot")
+        t=cnv1.find_closest(abscisse*taille+taille*18.5, ordonnee*taille+20+taille*0.5)
+        cnv1.delete(t[0])
+        carre=cnv1.create_rectangle(abscisse*taille+taille*18,ordonnee*taille+40,abscisse*taille+taille*19,(ordonnee+1)*taille+40,fill=str(listeCouleurBoard[int(M1[ordonnee][abscisse])]))
     
 def victoire(participant):
+    global testVictoire
+    testVictoire=False
     nb.hide(1)
     nb.select(4)
     if participant=="joueur":
-        labelFin=Label(cnvfin,text="Victoire du joueur")
+        labelFin=Label(cnvfin,text="Victoire du joueur",bg='grey')
     else:
-        labelFin=Label(cnvfin,text="Victoire du bot")
+        labelFin=Label(cnvfin,text="Victoire du bot",bg='grey')
     labelFin.place(x=taille*14,y=taille*6.5)
 
 def start():
-    global L1,listeCouleur,taille,lettre,rect,M2
+    global L1,listeCouleur,taille,lettre,listeBateau
     for i in range(10):
         for j in range(10):
             w1=Button(cnv1,bg="royal blue",command=lambda k=i*10+j: tirerJoueur(k))
-            w1.place(x=(i+1)*taille+taille,y=j*taille+20,height=taille,width=taille)
+            w1.place(x=(i+1)*taille+taille,y=j*taille+40,height=taille,width=taille)
             L1[i*10+j].append(w1)
             l=cnvdebut.create_rectangle(i*80+500,j*80+20,i*80+500+80,j*80+20+80)
         for k in range(2):
-            labelChiffre= Label(cnv1,text=str(i+1))
-            labelChiffre.place(x=(i+1)*taille+taille*1.3+(k*taille*16),y=-5)
-            labelLettre=Label(cnv1,text=lettre[i])
-            labelLettre.place(x=3*taille/2+(k*taille*16),y=i*taille+taille*0.8)
-    rect=cnvdebut.create_rectangle(0,0,80*5,80,fill="red")
+            labelChiffre= Label(cnv1,text=str(i+1),bg="#0070D0")
+            labelChiffre.place(x=(i+1)*taille+taille*1.3+(k*taille*16),y=15)
+            labelLettre=Label(cnv1,text=lettre[i],bg="#0070D0")
+            labelLettre.place(x=3*taille/2+(k*taille*16),y=i*taille+taille*0.8+20)
+    rect0=cnvdebut.create_rectangle(0,100,80*5,180,fill="red")
+    rect1=cnvdebut.create_rectangle(0,200,80*4,280,fill="red")
+    rect2=cnvdebut.create_rectangle(0,300,80*3,380,fill="red")
+    rect3=cnvdebut.create_rectangle(0,400,80*3,480,fill="red")
+    rect4=cnvdebut.create_rectangle(0,500,80*2,580,fill="red")
+    listeBateau=[rect0,rect1,rect2,rect3,rect4]
 
-    labelJ = Label(cnv1, text='Votre plateau de tir')
-    labelJ.place(x=6*taille,y=10*taille+taille/2,height=30,width=120)
-
-    labelA = Label(cnv1, text='Votre plateau') 
-    labelA.place(x=22.3*taille,y=10*taille+taille/2,height=30,width=90)
-
-
-def drawRect(hOuV):
-    global currentLengthShip,rect
-    if hOuV==1:
-        rect=cnvdebut.create_rectangle(0,0,80,80*currentLengthShip,fill="red")
-    else:
-        rect=cnvdebut.create_rectangle(0,0,80*currentLengthShip,80,fill="red")
-
-def supprimerRect():
-    t=cnvdebut.find_closest(0, 0)
-    cnvdebut.delete(t[0])
+    labelJ = Label(cnv1, text='Votre plateau de tir',bg="#0070D0")
+    labelJ.place(x=6*taille,y=10*taille+taille/2+30,height=30,width=120)
+    labelA = Label(cnv1, text='Votre plateau',bg="#0070D0") 
+    labelA.place(x=22.3*taille,y=10*taille+taille/2+30,height=30,width=90)
 
 def clic(event):
-    global rect,hOuV,pasBouger
-    if event.x>cnvdebut.coords(rect)[0] and event.x<cnvdebut.coords(rect)[2] and event.y>cnvdebut.coords(rect)[1] and event.y<cnvdebut.coords(rect)[3]:
-        old[0]=event.x
-        old[1]=event.y
-        pasBouger=True
+    global listeBateau,bateau
+    for i in range(5):
+        if event.x>cnvdebut.coords(listeBateau[i])[0] and event.x<cnvdebut.coords(listeBateau[i])[2] and event.y>cnvdebut.coords(listeBateau[i])[1] and event.y<cnvdebut.coords(listeBateau[i])[3]:
+            old[0]=event.x
+            old[1]=event.y
+            bateau=i
 
 def clic2(event):
-    global rect,hOuV,pasBouger
-    if pasBouger==False:
-        if event.x>cnvdebut.coords(rect)[0] and event.x<cnvdebut.coords(rect)[2] and event.y>cnvdebut.coords(rect)[1] and event.y<cnvdebut.coords(rect)[3]:
-            supprimerRect()
-            if hOuV==0:
-                rect=cnvdebut.create_rectangle(0,0,80,80*currentLengthShip,fill="red")
-                hOuV+=1
-            else:
-                rect=cnvdebut.create_rectangle(0,0,80*currentLengthShip,80,fill="red")
-                hOuV-=1
+    global horizOuVertical,listeBateau,tailleBateau
+    bateauClic=42
+    flag=True
+    for i in range(5):
+        if event.x>cnvdebut.coords(listeBateau[i])[0] and event.x<cnvdebut.coords(listeBateau[i])[2] and event.y>cnvdebut.coords(listeBateau[i])[1] and event.y<cnvdebut.coords(listeBateau[i])[3]:
+            bateauClic=i
+    if(bateauClic!=42):
+        x1,y1,x2,y2=cnvdebut.coords(listeBateau[bateauClic])
+        for j in range(5):
+            if j!=bateauClic:
+                k=tailleBateau[bateauClic]
+                if horizOuVertical[bateauClic]==0:
+                    if (x1>cnvdebut.coords(listeBateau[j])[0] and x1<cnvdebut.coords(listeBateau[j])[2]) or (x1+80>cnvdebut.coords(listeBateau[j])[0] and x1+80<cnvdebut.coords(listeBateau[j])[2]) or ((x1<cnvdebut.coords(listeBateau[j])[0]) and (x1+80>cnvdebut.coords(listeBateau[j])[0])) or ((x1<cnvdebut.coords(listeBateau[j])[2]) and (x1+80>cnvdebut.coords(listeBateau[j])[2])):
+                        if (y1>cnvdebut.coords(listeBateau[j])[1] and y1<cnvdebut.coords(listeBateau[j])[3]) or (y1+80*k>cnvdebut.coords(listeBateau[j])[1] and y1+80*k<cnvdebut.coords(listeBateau[j])[3]) or ((y1<cnvdebut.coords(listeBateau[j])[1]) and (x1+80*k>cnvdebut.coords(listeBateau[j])[1])) or ((x1<cnvdebut.coords(listeBateau[j])[3]) and (x1+80*k>cnvdebut.coords(listeBateau[j])[3])):         
+                            flag=False
+                else:
+                    if (x1>cnvdebut.coords(listeBateau[j])[0] and x1<cnvdebut.coords(listeBateau[j])[2]) or (x1+80*k>cnvdebut.coords(listeBateau[j])[0] and x1+80*k<cnvdebut.coords(listeBateau[j])[2]) or ((x1<cnvdebut.coords(listeBateau[j])[0]) and (x1+80*k>cnvdebut.coords(listeBateau[j])[0])) or ((x1<cnvdebut.coords(listeBateau[j])[2]) and (x1+80*k>cnvdebut.coords(listeBateau[j])[2])):
+                        if (y1>cnvdebut.coords(listeBateau[j])[1] and y1<cnvdebut.coords(listeBateau[j])[3]) or (y1+80>cnvdebut.coords(listeBateau[j])[1] and y1+80<cnvdebut.coords(listeBateau[j])[3]) or ((y1<cnvdebut.coords(listeBateau[j])[1]) and (x1+80>cnvdebut.coords(listeBateau[j])[1])) or ((x1<cnvdebut.coords(listeBateau[j])[3]) and (x1+80>cnvdebut.coords(listeBateau[j])[3])):            
+                            flag=False
+        if flag==True:
+            if horizOuVertical[bateauClic]==0:
+                cnvdebut.coords(listeBateau[bateauClic],x1,y1,x1+80,y1+80*tailleBateau[bateauClic])
+                horizOuVertical[bateauClic]=1
+            else:   
+                cnvdebut.coords(listeBateau[bateauClic],x1,y1,x1+80*tailleBateau[bateauClic],y1+80)
+                horizOuVertical[bateauClic]=0
 
 def glisser(event):
-    global rect
-    if event.x>cnvdebut.coords(rect)[0] and event.x<cnvdebut.coords(rect)[2] and event.y>cnvdebut.coords(rect)[1] and event.y<cnvdebut.coords(rect)[3]:
-        cnvdebut.move(rect, event.x-old[0], event.y-old[1])
+    global listeBateau,bateau
+    if event.x>cnvdebut.coords(listeBateau[bateau])[0] and event.x<cnvdebut.coords(listeBateau[bateau])[2] and event.y>cnvdebut.coords(listeBateau[bateau])[1] and event.y<cnvdebut.coords(listeBateau[bateau])[3]:
+        cnvdebut.move(listeBateau[bateau], event.x-old[0], event.y-old[1])
         old[0]=event.x
         old[1]=event.y
 
 def lacher(event):
-    global rect,M1,currentLengthShip,tailleBateau,compteur,pasBouger
-    x=int(cnvdebut.coords(rect)[0])//80
-    y=int(cnvdebut.coords(rect)[1])//80
+    global listeBateau,M1,tailleBateau,compteurBateau,horizOuVertical,bateau
+    x=int(cnvdebut.coords(listeBateau[bateau])[0])//80
+    y=int(cnvdebut.coords(listeBateau[bateau])[1])//80
+    x1,y1,x2,y2=cnvdebut.coords(listeBateau[bateau])
+    placerCarre=True
+    testPos=True
+    flag2=True
+    if horizOuVertical[bateau]==1:
+        if x>5 and x<16 and y>=0 and y+tailleBateau[bateau]-1<10:
+            testPlacer()
+        else:
+            placerCarre=False
+            testPos=False
+    elif horizOuVertical[bateau]==0:
+        if x>5 and x+tailleBateau[bateau]-1<16 and y>=0 and y<10:
+            testPos=testPlacer()
+        else:
+            placerCarre=False
+            testPos=False
+        #dessin
+    if testPos==True and placerCarre:
+        if horizOuVertical[bateau]==1:
+            cnvdebut.coords(listeBateau[bateau],x*80+20,y*80+20,x*80+20+80,y*80+20+tailleBateau[bateau]*80)
+        else:
+            cnvdebut.coords(listeBateau[bateau],x*80+20,y*80+20,x*80+20+tailleBateau[bateau]*80,y*80+20+80)
+    #compteur et si bateau pas dedans append
+    for contient in range(len(compteurBateau)):
+        if compteurBateau[contient]==bateau:
+            flag2=False
+    if flag2==True:
+        compteurBateau.append(bateau)
+    #changer compteur
+    if not(testPos):
+        if compteurBateau.__contains__(bateau):
+            compteurBateau.remove(bateau)
+            buttonCommencer.place_forget()
+    #afficher le bouton
+    if len(compteurBateau)>4 and testPos==True:
+        buttonCommencer.place(x=300,y=390,width=120,height=80)
+    
+def testPlacer():
+    global listeBateau,bateau
     flag=True
-    if x>5 and x<16 and y>=0 and y<10:
-        for i in range(currentLengthShip):
-            if hOuV==1:
-                if M1[y+i][x-6]==1:
+    x1,y1,x2,y2=cnvdebut.coords(listeBateau[bateau])     
+    for i in range(5):
+        if i!=bateau:
+            if (x1>cnvdebut.coords(listeBateau[i])[0] and x1<cnvdebut.coords(listeBateau[i])[2]) or (x2>cnvdebut.coords(listeBateau[i])[0] and x2<cnvdebut.coords(listeBateau[i])[2]):
+                if (y1>cnvdebut.coords(listeBateau[i])[1] and y1<cnvdebut.coords(listeBateau[i])[3]) or (y2>cnvdebut.coords(listeBateau[i])[1] and y2<cnvdebut.coords(listeBateau[i])[3]):
                     flag=False
-            else:
-                if M1[y][x-6+i]==1:
-                    flag=False
-        if flag==True:
-            if hOuV==1:
-                for i in range(currentLengthShip):
-                    M1[y+1][x-6]=1
-                    cnvdebut.create_rectangle(x*80+20,y*80+20+80*i,x*80+80+20,y*80+80+20+80*i,fill="limegreen")
-            else:
-                for i in range(currentLengthShip):
-                    M1[y][x-6+i]=1
-                    cnvdebut.create_rectangle(x*80+20+80*i,y*80+20,x*80+80+20+80*i,y*80+80+20,fill="limegreen")
-    else:
-        flag=False
-    #delete le rectangle pour le refaire de la bonne taille
-    if compteur<4:
-        if flag==True:
-            compteur+=1
-            currentLengthShip=tailleBateau[compteur]
-            cnvdebut.move(rect,-cnvdebut.coords(rect)[0],-cnvdebut.coords(rect)[1])
-            supprimerRect()
-            drawRect(hOuV)
-    else:
-        if flag==True:
-            for i in range(10):
-                for j in range(10):
-                    carre=cnv1.create_rectangle(j*taille+taille*18,i*taille+20,j*taille+taille*19,(i+1)*taille+20,fill=str(listeCouleurBoard[int(M1[i][j])]))
-            nb.hide(3)
-            nb.select(1)
-        
-            
-    pasBouger=False
+    return flag
 
 old=[None,None]
 cnvdebut.bind("<Button-1>",clic)
@@ -221,7 +250,27 @@ cnvdebut.bind("<B1-Motion>",glisser)
 cnvdebut.bind("<ButtonRelease-1>",lacher)
 cnvdebut.bind("<Button-3>",clic2)
 
-def plateauBotAléatoire():
+def placerBateau():
+    global horizOuVertical,listeBateau,tailleBateau
+    for i in range(5):
+        x1,y1,x2,y2=cnvdebut.coords(listeBateau[i])
+        if horizOuVertical[i]==1:
+            for j in range(tailleBateau[i]):
+                M1[int(y1//80+j)][int(x1//80-6)]=1
+        else:
+            for j in range(tailleBateau[i]):
+                M1[int(y1//80)][int(x1//80-6+j)]=1
+    for i in range(10):
+        for j in range(10):
+            carre=cnv1.create_rectangle(j*taille+taille*18,i*taille+40,j*taille+taille*19,(i+1)*taille+40,fill=str(listeCouleurBoard[int(M1[i][j])]))
+    nb.hide(3)
+    nb.select(1)
+
+buttonCommencer=Button(cnvdebut,text="commencer la partie",command=placerBateau,bg='grey')
+buttonCommencer.place(x=300,y=390,width=120,height=80)
+buttonCommencer.place_forget()
+
+def plateauBotAleatoire():
     global tailleBateau,M2
     compteur=0
     tailleB=0
@@ -255,4 +304,79 @@ def plateauBotAléatoire():
                 compteur+=1
 
 
+def choose_color1():
+    global listeCouleur
+    color_code = colorchooser.askcolor(title ="Choose color") 
+    listeCouleur[0]=color_code[1]
+    
+def choose_color2():
+    global listeCouleur
+    color_code = colorchooser.askcolor(title ="Choose color") 
+    listeCouleur[1]=color_code[1]
 
+def choose_color3():
+    global listeCouleur
+    color_code = colorchooser.askcolor(title ="Choose color") 
+    listeCouleur[2]=color_code[1]
+
+def choose_color4():
+    global listeCouleurBoard
+    color_code = colorchooser.askcolor(title ="Choose color") 
+    listeCouleurBoard[0]=color_code[1]
+
+def choose_color5():
+    color_code = colorchooser.askcolor(title ="Choose color") 
+    listeCouleurBoard[1]=color_code[1]
+
+def choose_color6():
+    color_code = colorchooser.askcolor(title ="Choose color") 
+    listeCouleurBoard[2]=color_code[1]
+
+def choose_color7():
+    color_code = colorchooser.askcolor(title ="Choose color") 
+    listeCouleurBoard[3]=color_code[1]
+
+
+def reecrire():
+    global L1,M2
+    for i in range(10):
+        for j in range(10):
+            carre=cnv1.create_rectangle(j*taille+taille*18,i*taille+40,j*taille+taille*19,(i+1)*taille+40,fill=str(listeCouleurBoard[int(M1[i][j])]))
+            k=i*10+j
+            x=(k//10+1)*taille+taille
+            y=k%10*taille+40
+            if L1[k][0]!=69:
+                if M2[i][j]==0 or M2[i][j]==1:
+                    w1=Button(cnv1,bg=str(listeCouleur[0]),command=lambda k=k: tirerJoueur(k))
+                else:
+                    w1=Button(cnv1,bg=str(listeCouleur[int(M2[i][j])]),command=lambda k=k: tirerJoueur(k))     
+                L1[k][0].place_forget()
+                L1[k][0]=w1
+                w1.place(x=x,y=y,height=taille,width=taille)
+            else:
+                w1=cnv1.create_rectangle(x,y,x+taille,y+taille,fill=str(listeCouleur[int(M2[k%10][k//10])]))
+
+    
+    
+couleur1 = Button(cnvParametres, text = "Couleur case vierge adversaire",command = choose_color1)
+couleur1.pack()
+couleur2 = Button(cnvParametres, text = "Couleur bateau touché adversaire",command = choose_color2)
+couleur2.pack()
+couleur3 = Button(cnvParametres, text = "Couleur eau touchée adversaire",command = choose_color3)
+couleur3.pack()
+couleur4 = Button(cnvParametres, text = "Couleur eau joueur",command = choose_color4)
+couleur4.pack()
+couleur5 = Button(cnvParametres, text = "Couleur bateau joueur",command = choose_color5)
+couleur5.pack()
+couleur6 = Button(cnvParametres, text = "Couleur eau touché joueur",command = choose_color6)
+couleur6.pack()
+couleur7 = Button(cnvParametres, text = "Couleur bateau touchée joueur",command = choose_color7)
+couleur7.pack()
+
+
+
+def printMatrice(M):
+    for i in range(len(M)):
+        for j in range(len(M)):
+            print(str(M[i][j])+" ",end="")
+        print()
