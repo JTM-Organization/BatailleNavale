@@ -1,7 +1,8 @@
+from sys import flags
 from tkinter import *
 from tkinter import ttk
 import random
-
+from tkinter import colorchooser
 
 root=Tk()
 root.title('Bataille Navale')
@@ -34,10 +35,6 @@ else:
 global listeCouleur
 listeCouleur=["royal blue","red","grey"]
 
-#matrice d'état des boutons du joueur
-global matriceC1
-matriceC1=[[0 for i in range(10)]for j in range(10)]
-
 #liste pour les boutons du joueur 
 global L1
 L1=[[]for i in range(100)]
@@ -48,27 +45,31 @@ lettre="ABCDEFGHIJ"
 global debut
 debut=False
 
-global rect
+global rect0,rect1,rect2,rect3,rect4
 
+global listeBateau
+listeBateau=[]
 
-global currentLengthShip
-currentLengthShip=5
-
-global compteur
-compteur=0
+global compteurBateau
+compteurBateau=[]
 
 global tailleBateau
 tailleBateau=[5,4,3,3,2]
 
-global hOuV
-hOuV=0
+global bateau
+bateau=0
+
+global horizOuVertical
+horizOuVertical=[0,0,0,0,0]
 
 global listeCouleurBoard
 listeCouleurBoard=["royal blue","limegreen","grey","red"]
 
+#couleur joueur
 global M1
 M1=[[0 for i in range(10)] for j in range(10)]
 
+#couleur adversaire
 global M2
 M2=[[0 for i in range(10)] for j in range(10)]
 
@@ -78,3 +79,6 @@ pasBouger=False
 global victoireBot, victoireJoueur
 victoireBot=17
 victoireJoueur=17
+
+global testVictoire
+testVictoire=False
