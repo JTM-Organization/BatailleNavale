@@ -62,7 +62,7 @@ nb.hide(2)
 nb.hide(3)
 
 
-cnv1 = Canvas(Plateau, width = largeur, height = hauteur,bg="#0070D0")
+cnv1 = Canvas(Plateau, width = largeur, height = hauteur,bg='grey')
 cnvParametres = Canvas(Parametres, width = largeur, height = hauteur)
 cnvdebut=Canvas(Debut,width=largeur,height=hauteur,bg='grey')
 cnvfin=Canvas(Fin,width=largeur,height=hauteur,bg='grey')
@@ -82,13 +82,13 @@ def tirerJoueur(k):
     y=k%10*taille+40
     w2=cnv1.create_rectangle(x,y,x+taille,y+taille,fill=str(listeCouleur[int(M2[k%10][k//10])]))
     if M2[k%10][k//10]==1:
-        labelTouche=Label(cnv1,text="Vous tirez sur la case \n"+lettre[k//10]+str(k%10)+": touchée",bg="#0070D0")
+        labelTouche=Label(cnv1,text="Vous tirez sur la case \n"+lettre[k//10]+str(k%10)+": touchée",bg='grey')
         labelTouche.place(x=taille*13.5,y=taille*3,height=taille,width=taille*3)
         victoireJoueur-=1
         if victoireJoueur==0:
             victoire("joueur")
     else:
-        labelTouche=Label(cnv1,text="Vous tirez sur la case \n"+lettre[k//10]+str(k%10)+": à l'eau",bg="#0070D0")
+        labelTouche=Label(cnv1,text="Vous tirez sur la case \n"+lettre[k//10]+str(k%10)+": à l'eau",bg='grey')
         labelTouche.place(x=taille*13.5,y=taille*3,height=taille,width=taille*3)
     flag=True
     if testVictoire:
@@ -98,12 +98,12 @@ def tirerJoueur(k):
         abscisse=random.randint(0,9)
         if M1[ordonnee][abscisse]==0:
             M1[ordonnee][abscisse]=2
-            labelToucheBot=Label(cnv1,text="Le bot a tiré sur la case \n"+lettre[ordonnee]+str(abscisse)+": touchée",bg="#0070D0")
+            labelToucheBot=Label(cnv1,text="Le bot a tiré sur la case \n"+lettre[ordonnee]+str(abscisse)+": à l'eau",bg='grey')
             labelToucheBot.place(x=taille*13.5,y=taille*5,height=taille,width=taille*3)
             flag=False
         elif M1[ordonnee][abscisse]==1:
             M1[ordonnee][abscisse]=3
-            labelToucheBot=Label(cnv1,text="Le bot a tiré sur la case \n"+lettre[ordonnee]+str(abscisse)+": à l'eau",bg="#0070D0")
+            labelToucheBot=Label(cnv1,text="Le bot a tiré sur la case \n"+lettre[ordonnee]+str(abscisse)+": touchée",bg='grey')
             labelToucheBot.place(x=taille*13.5,y=taille*5,height=taille,width=taille*3)
             victoireBot-=1
             flag=False
@@ -133,9 +133,9 @@ def start():
             L1[i*10+j].append(w1)
             l=cnvdebut.create_rectangle(i*80+500,j*80+20,i*80+500+80,j*80+20+80)
         for k in range(2):
-            labelChiffre= Label(cnv1,text=str(i+1),bg="#0070D0")
+            labelChiffre= Label(cnv1,text=str(i+1),bg='grey')
             labelChiffre.place(x=(i+1)*taille+taille*1.3+(k*taille*16),y=15)
-            labelLettre=Label(cnv1,text=lettre[i],bg="#0070D0")
+            labelLettre=Label(cnv1,text=lettre[i],bg='grey')
             labelLettre.place(x=3*taille/2+(k*taille*16),y=i*taille+taille*0.8+20)
     rect0=cnvdebut.create_rectangle(0,100,80*5,180,fill="red")
     rect1=cnvdebut.create_rectangle(0,200,80*4,280,fill="red")
@@ -144,9 +144,9 @@ def start():
     rect4=cnvdebut.create_rectangle(0,500,80*2,580,fill="red")
     listeBateau=[rect0,rect1,rect2,rect3,rect4]
 
-    labelJ = Label(cnv1, text='Votre plateau de tir',bg="#0070D0")
+    labelJ = Label(cnv1, text='Votre plateau de tir',bg='grey')
     labelJ.place(x=6*taille,y=10*taille+taille/2+30,height=30,width=120)
-    labelA = Label(cnv1, text='Votre plateau',bg="#0070D0") 
+    labelA = Label(cnv1, text='Votre plateau',bg='grey') 
     labelA.place(x=22.3*taille,y=10*taille+taille/2+30,height=30,width=90)
 
 def clic(event):
