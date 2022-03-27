@@ -27,10 +27,10 @@ global score
 score = 0
 
 global vainqueur
-vainqueur = 1
+vainqueur = 0
 
 global tour
-tour = 1
+tour = 2
 
 def reInitialisation():
     for i in range(NOMBRE_DE_CARRES):
@@ -45,15 +45,33 @@ def abandon_de_partie():
     root.quit()
 
 
-def victoire():
+def victoire1():
     global vainqueur
-    if grille1[0][0]==1:
-        vainqueur = 0
-    return vainqueur
+    vainqueur = 0
+    for i in range(NOMBRE_DE_CARRES):
+        for j in range(NOMBRE_DE_CARRES):
+            if grille1[i][j] == 2:
+                vainqueur += 1
+    if vainqueur == 17:
+        return True
+    else:
+        return False
+
+def victoire2():
+    global vainqueur
+    vainqueur = 0
+    for i in range(NOMBRE_DE_CARRES):
+        for j in range(NOMBRE_DE_CARRES):
+            if grille2[i][j] == 2:
+                vainqueur += 1
+    if vainqueur == 17:
+        return True
+    else:
+        return False
 
 
 def fin_de_partie():
     for i in range(NOMBRE_DE_CARRES):
         for j in range(NOMBRE_DE_CARRES):
-            grille1[i][j] = 1
-            grille2[i][j] = 1
+            grille1[i][j] = 4
+            grille2[i][j] = 4

@@ -50,7 +50,7 @@ def launcherTK():
         launcher.resizable(0, 0)
         
         # Définition du logo de la fenêtre
-        launcher.iconbitmap("ancre.ico")
+        launcher.iconbitmap("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\ancre.ico")
         
         # Définition du titre de la fenêtre
         launcher.title("Bataille Navale Launcher")
@@ -82,7 +82,7 @@ def launcherTK():
         
         # Ouverture d'un fichier image
         global bg_launcher
-        bg_launcher = Image.open("launcher_wp.png")
+        bg_launcher = Image.open("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\launcher_wp.png")
         
         # Resize du fichier image à la taille de la fenêtre launcher
         global resized_launcher, new_bg_launcher
@@ -257,7 +257,7 @@ def rootTK():
         root = Tk()
 
         # Définition du logo de la fenêtre
-        root.iconbitmap("bateau.ico")
+        root.iconbitmap("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\bateau.ico")
         
         # Définition du titre de la fenêtre
         root.title("Bataille Navale")
@@ -675,13 +675,13 @@ def creation_ecran_personnalisation():
         
     # Création des boutons radios dans le frame personnalisation
     def creation_boutons_radios_frame_personnalisation():
-        jppImage = Image.open('jpp.jpg')
+        jppImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\jpp.jpg')
         jppImage_redim = jppImage.resize((200,200))
         
-        dignityImage = Image.open('dignity.png')
+        dignityImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\dignity.png')
         dignityImage_redim = dignityImage.resize((200,200))
         
-        zyzzImage = Image.open('zyzz.png')
+        zyzzImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\zyzz.png')
         zyzzImage_redim = zyzzImage.resize((200, 200))
         
         global facile
@@ -767,7 +767,7 @@ def choix_couleur_pseudo():
     
     
 def play_zyzz():
-    pygame.mixer.music.load("sick-cunt.mp3")
+    pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\sick-cunt.mp3")
     pygame.mixer.music.play(loops = 0)
     
         
@@ -1337,7 +1337,6 @@ def creation_ecran_jeu():
     # Création des boutons dans le frame principal
     def creation_boutons_frame_jeu():
             
-            
         def survol_placer(event):
             if bouton_placer_frame_jeu['state'] == NORMAL:
                 bouton_placer_frame_jeu.config(background = "#ffcc66",
@@ -1465,10 +1464,6 @@ def creation_ecran_jeu():
         bouton_regles_frame_jeu.bind("<Leave>", fin_survol_regles)
         bouton_jouer_frame_jeu.bind("<Enter>", survol_jouer)
         bouton_jouer_frame_jeu.bind("<Leave>", fin_survol_jouer)
-        
-    
-    global tour
-    tour = 1
     
     # Réaction suite à un clic sur le plateau
     def clic_plateau_jeu1(event):
@@ -1516,29 +1511,84 @@ def creation_ecran_jeu():
                     tour = 1
                     grille2[i][j] = 1
                     plateau2.itemconfigure(i * 10 + j + 1, fill="#eb4034")
-                    print(grille2)
-                    print("Ligne=", i + 1, "Colonne=", j + 1)
-                    label1['text'] = "Votre tour"
-                    label1['bg'] = "green"
-                elif grille1[i][j] == 3:
-                    tour = 2
-                    grille1[i][j] = 1
-                    plateau1.itemconfigure(i * 10 + j + 1, fill="#80ff00")
-                    print(grille1)
-                    print("Ligne=", i + 1, "Colonne=", j + 1)
-                    label1['text'] = "Tour de l'adversaire"
-                    label1['bg'] = "red"
+                    """label1['text'] = "Tour de l'adversaire"
+                    label1['bg'] = "red"""
+                elif grille2[i][j] == 3:
+                    tour = 1
+                    grille2[i][j] = 2
+                    plateau2.itemconfigure(i * 10 + j + 1, fill="#80ff00")
+                    """label1['text'] = "Tour de l'adversaire"
+                    label1['bg'] = "red"""
                 else:
                     print("Veuillez sélectionner une autre case")
-                test_victoire()
+                test_victoire2()
             else:
-                print("Ce n'est pas votre tour") 
+                print("Ce n'est pas votre tour")
+            frame_jeu.after(300, bot_facile)
         else:
             print("configurer bateaux")
-        
+    
+    def bot_facile():
+        global flag_partie_prete
+        if flag_partie_prete:
+            global tour
+            print("tour=", tour)
+            if tour == 1:
+                i = random.randint(0,9)
+                j = random.randint(0,9)
+                while grille1[i][j] == (1 or 2):
+                    i = random.randint(0,9)
+                    j = random.randint(0,9)
+                if grille1[i][j] == 0:
+                    tour = 2
+                    grille1[i][j] = 1
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="#eb4034")
+                    """label1['text'] = "Votre tour"
+                    label1['bg'] = "green"""
+                elif grille1[i][j] == 3:
+                    tour = 2
+                    grille1[i][j] = 2
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="#80ff00")
+                    """label1['text'] = "Votre tour"
+                    label1['bg'] = "green"""
+                test_victoire1()
+    
+    def bot_difficile():
+        global flag_partie_prete
+        if flag_partie_prete:
+            global tour
+            print("tour=", tour)
+            if tour == 1:
+                i = random.randint(0,9)
+                j = random.randint(0,9)
+                while grille1[i][j] != (3 or 4):
+                    i = random.randint(0,9)
+                    j = random.randint(0,9)
+                if grille1[i][j] == 0:
+                    tour = 2
+                    grille1[i][j] = 1
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="#eb4034")
+                    """label1['text'] = "Votre tour"
+                    label1['bg'] = "green"""
+                elif grille1[i][j] == 3:
+                    tour = 2
+                    grille1[i][j] = 2
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="#80ff00")
+                    """label1['text'] = "Votre tour"
+                    label1['bg'] = "green"""
+                test_victoire1()
+    
+    def test_victoire1():
+        if victoire1():
+            fin_de_partie()
+            
+
+    def test_victoire2():
+        if victoire2():
+            fin_de_partie()
+            
         
     def creation_plateaux():
-        
         
         def plateau_jeu1():
             global plateau1
@@ -1554,7 +1604,6 @@ def creation_ecran_jeu():
                     A, B = (x, y), (x + TAILLE_DE_CARRES, y + TAILLE_DE_CARRES)
                     plateau1.create_rectangle(A, B, fill="#097ade")
         
-        
         def plateau_jeu2():
             global plateau2
             plateau2 = Canvas(frame_jeu, 
@@ -1569,15 +1618,64 @@ def creation_ecran_jeu():
                     A, B = (x, y), (x + TAILLE_DE_CARRES, y + TAILLE_DE_CARRES)
                     plateau2.create_rectangle(A, B, fill="#097ade")
         
+        def bateaux_bot():
+            long = [5,4,3,3,2]
+            dir1 = [-1,0,1]
+            dir2 = [-1,1]
+            for i in range(len(long)):
+                valide = False
+                while not valide:
+                    valide = True
+                    x = random.randint(0,9)
+                    y = random.randint(0,9)
+                    while grille2[x][y] == 3:
+                        x = random.randint(0,9)
+                        y = random.randint(0,9)
+                    diff_x = dir1[random.randint(0,2)]
+                    if diff_x == 0:
+                        diff_y = dir2[random.randint(0,1)]
+                        if diff_y == -1:
+                            for j in range(y, y+(diff_y*long[i]), -1):
+                                if (j < 0) or (grille2[x][j] == 3):
+                                    valide = False
+                        elif diff_y == 1:
+                            for j in range(y, y+(diff_y*long[i])):
+                                if (j > 9) or (grille2[x][j] == 3):
+                                    valide = False
+                    else:
+                        diff_y = 0
+                        if diff_x == -1:
+                            for j in range(x, x+(diff_x*long[i]), -1):
+                                if (j < 0) or (grille2[j][y] == 3):
+                                    valide = False
+                        elif diff_x == 1:
+                            for j in range(x, x+(diff_x*long[i])):
+                                if (j > 9) or (grille2[j][y] == 3):
+                                    valide = False
+
+                    if valide:
+                        if diff_x == -1:
+                            for j in range(x, x+(diff_x*long[i]), -1):
+                                grille2[j][y] = 3
+                        elif diff_x == 1:
+                            for j in range(x, x+(diff_x*long[i])):
+                                grille2[j][y] = 3
+                        elif diff_y == -1:
+                            for j in range(y, y+(diff_y*long[i]), -1):
+                                grille2[x][j] = 3
+                        elif diff_y == 1:
+                            for j in range(y, y+(diff_y*long[i])):
+                                grille2[x][j] = 3
         
         def bind_jeu():
-            plateau1.bind("<Button-1>", clic_plateau_jeu1)
             plateau2.bind("<Button-1>", clic_plateau_jeu2)
             
         # Ici on crée les plateaux de jeux
         plateau_jeu1()
         plateau_jeu2()
+        bateaux_bot()
         bind_jeu()
+        
         
         
     # Appel de toutes les fonctions qui meublent le frame jeu
