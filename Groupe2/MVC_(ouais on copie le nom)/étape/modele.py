@@ -1,4 +1,3 @@
-from sys import flags
 from tkinter import *
 from tkinter import ttk
 import random
