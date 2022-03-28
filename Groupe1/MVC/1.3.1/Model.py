@@ -32,6 +32,16 @@ vainqueur = 0
 global tour
 tour = 2
 
+global niv_facile
+global niv_moyen
+global niv_difficile
+niv_facile = False
+niv_moyen = False
+niv_difficile = False
+
+global flag_partie_prete
+flag_partie_prete = False
+
 def reInitialisation():
     for i in range(NOMBRE_DE_CARRES):
         for j in range(NOMBRE_DE_CARRES):
@@ -71,7 +81,9 @@ def victoire2():
 
 
 def fin_de_partie():
+    global flag_partie_prete
     for i in range(NOMBRE_DE_CARRES):
         for j in range(NOMBRE_DE_CARRES):
             grille1[i][j] = 4
             grille2[i][j] = 4
+    flag_partie_prete = False

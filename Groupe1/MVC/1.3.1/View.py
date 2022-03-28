@@ -2,6 +2,8 @@
 
 
 # Interface graphique
+from tkinter.filedialog import Open
+import webbrowser
 from Model import *
 from tkinter import ttk
 import tkinter as tk
@@ -12,6 +14,7 @@ from tkinter.ttk import Progressbar
 import time
 import random
 import pygame
+import urllib
 
 
 """
@@ -50,7 +53,7 @@ def launcherTK():
         launcher.resizable(0, 0)
         
         # Définition du logo de la fenêtre
-        launcher.iconbitmap("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\ancre.ico")
+        launcher.iconbitmap("ancre.ico")
         
         # Définition du titre de la fenêtre
         launcher.title("Bataille Navale Launcher")
@@ -82,7 +85,7 @@ def launcherTK():
         
         # Ouverture d'un fichier image
         global bg_launcher
-        bg_launcher = Image.open("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\launcher_wp.png")
+        bg_launcher = Image.open("launcher_wp.png")
         
         # Resize du fichier image à la taille de la fenêtre launcher
         global resized_launcher, new_bg_launcher
@@ -257,7 +260,7 @@ def rootTK():
         root = Tk()
 
         # Définition du logo de la fenêtre
-        root.iconbitmap("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\bateau.ico")
+        root.iconbitmap("bateau.ico")
         
         # Définition du titre de la fenêtre
         root.title("Bataille Navale")
@@ -675,13 +678,13 @@ def creation_ecran_personnalisation():
         
     # Création des boutons radios dans le frame personnalisation
     def creation_boutons_radios_frame_personnalisation():
-        jppImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\jpp.jpg')
+        jppImage = Image.open('jpp.jpg')
         jppImage_redim = jppImage.resize((200,200))
         
-        dignityImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\dignity.png')
+        dignityImage = Image.open('dignity.png')
         dignityImage_redim = dignityImage.resize((200,200))
         
-        zyzzImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\zyzz.png')
+        zyzzImage = Image.open('zyzz.png')
         zyzzImage_redim = zyzzImage.resize((200, 200))
         
         global facile
@@ -691,6 +694,7 @@ def creation_ecran_personnalisation():
         global difficile
         difficile = ImageTk.PhotoImage(zyzzImage_redim)
         
+
         global numero
         # Permet d'appeler chaque boutons radios en fonction de leurs 'value'
         numero = IntVar() 
@@ -743,11 +747,17 @@ Partie commandes menu personnalisation
 # Sélection d'une difficulté 
 def choix_difficulte():
     global canvas_frame_personnalisation
+    global niv_facile
+    global niv_moyen
+    global niv_difficile
     if numero.get() == 0:
+        niv_facile = True
         canvas_frame_personnalisation.itemconfig(1, text = "F A I B L E")
     if numero.get() == 1:
+        niv_moyen = True
         canvas_frame_personnalisation.itemconfig(1, text = "B A S T O N")
     if numero.get() == 2:
+        niv_difficile = True
         canvas_frame_personnalisation.itemconfig(1, text = "F O R T")
         play_zyzz()
     deblocage_bouton_valider_frame_personnalisation(e)
@@ -767,7 +777,7 @@ def choix_couleur_pseudo():
     
     
 def play_zyzz():
-    pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (3)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.1\\sick-cunt.mp3")
+    pygame.mixer.music.load("sick-cunt.mp3")
     pygame.mixer.music.play(loops = 0)
     
         
@@ -1148,8 +1158,6 @@ def confirmer():
     bouton_placer_frame_jeu.destroy()
     global bouton_jouer_frame_jeu
     bouton_jouer_frame_jeu.grid(row = 14, column = 15, sticky = "nsew")
-    global flag_partie_prete
-    flag_partie_prete = True
     
     # On fait réapparaître la fenêtre principale
     root.deiconify()
@@ -1391,8 +1399,16 @@ def creation_ecran_jeu():
                 bouton_jouer_frame_jeu.config(background = "#141414",
                                               foreground = "#ffcc66")
                 
-            
         global frame_jeu
+
+        def open():
+            return webbrowser.open('C:\\Users\\jawad\\OneDrive\\Bureau\\HTML CSS\\Projet\\Règles.html')
+
+        def lancement_jouer():
+            global flag_partie_prete
+            global bouton_jouer_frame_jeu
+            flag_partie_prete = True
+            bouton_jouer_frame_jeu.destroy()
         
         global bouton_placer_frame_jeu
         bouton_placer_frame_jeu = Button(frame_jeu,
@@ -1439,7 +1455,7 @@ def creation_ecran_jeu():
                                          activebackground = "#141414",
                                          activeforeground = "#5a3b9c",
                                          font = ("Benguiat", 15),
-                                         command = placementTK)
+                                         command = open)
         bouton_regles_frame_jeu.grid(row = 25, column = 15, sticky = "nsew")
         
         global bouton_jouer_frame_jeu
@@ -1451,7 +1467,7 @@ def creation_ecran_jeu():
                                          activebackground = "#141414",
                                          activeforeground = "#ffcc66",
                                          font = ("Benguiat", 15),
-                                         command = None)
+                                         command = lancement_jouer)
         
         
         bouton_placer_frame_jeu.bind("<Enter>", survol_placer)
@@ -1465,6 +1481,7 @@ def creation_ecran_jeu():
         bouton_jouer_frame_jeu.bind("<Enter>", survol_jouer)
         bouton_jouer_frame_jeu.bind("<Leave>", fin_survol_jouer)
     
+
     # Réaction suite à un clic sur le plateau
     def clic_plateau_jeu1(event):
         global flag_partie_prete
@@ -1477,7 +1494,7 @@ def creation_ecran_jeu():
                 if grille1[i][j] == 0:
                     tour = 2
                     grille1[i][j] = 1
-                    plateau1.itemconfigure(i * 10 + j + 1, fill="#eb4034")
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="white")
                     print(grille1)
                     print("Ligne=", i + 1, "Colonne=", j + 1)
                     label1['text'] = "Tour de l'adversaire"
@@ -1485,7 +1502,7 @@ def creation_ecran_jeu():
                 elif grille1[i][j] == 3:
                     tour = 2
                     grille1[i][j] = 1
-                    plateau1.itemconfigure(i * 10 + j + 1, fill="#80ff00")
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="red")
                     print(grille1)
                     print("Ligne=", i + 1, "Colonne=", j + 1)
                     label1['text'] = "Tour de l'adversaire"
@@ -1501,6 +1518,7 @@ def creation_ecran_jeu():
     
     def clic_plateau_jeu2(event):
         global flag_partie_prete
+        print(flag_partie_prete)
         if flag_partie_prete:
             global tour
             print("tour=", tour)
@@ -1510,13 +1528,13 @@ def creation_ecran_jeu():
                 if grille2[i][j] == 0:
                     tour = 1
                     grille2[i][j] = 1
-                    plateau2.itemconfigure(i * 10 + j + 1, fill="#eb4034")
+                    plateau2.itemconfigure(i * 10 + j + 1, fill="white")
                     """label1['text'] = "Tour de l'adversaire"
                     label1['bg'] = "red"""
                 elif grille2[i][j] == 3:
                     tour = 1
                     grille2[i][j] = 2
-                    plateau2.itemconfigure(i * 10 + j + 1, fill="#80ff00")
+                    plateau2.itemconfigure(i * 10 + j + 1, fill="red")
                     """label1['text'] = "Tour de l'adversaire"
                     label1['bg'] = "red"""
                 else:
@@ -1524,7 +1542,10 @@ def creation_ecran_jeu():
                 test_victoire2()
             else:
                 print("Ce n'est pas votre tour")
-            frame_jeu.after(300, bot_facile)
+            if niv_facile:
+                frame_jeu.after(300, bot_facile)
+            if niv_moyen or niv_difficile:
+                frame_jeu.after(300, bot_difficile)
         else:
             print("configurer bateaux")
     
@@ -1536,23 +1557,25 @@ def creation_ecran_jeu():
             if tour == 1:
                 i = random.randint(0,9)
                 j = random.randint(0,9)
-                while grille1[i][j] == (1 or 2):
+                while (grille1[i][j] != 0) and (grille1[i][j] != 3) and (grille1[i][j] != 4):
                     i = random.randint(0,9)
                     j = random.randint(0,9)
                 if grille1[i][j] == 0:
                     tour = 2
                     grille1[i][j] = 1
-                    plateau1.itemconfigure(i * 10 + j + 1, fill="#eb4034")
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="white")
                     """label1['text'] = "Votre tour"
                     label1['bg'] = "green"""
                 elif grille1[i][j] == 3:
                     tour = 2
                     grille1[i][j] = 2
-                    plateau1.itemconfigure(i * 10 + j + 1, fill="#80ff00")
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="red")
                     """label1['text'] = "Votre tour"
                     label1['bg'] = "green"""
                 test_victoire1()
     
+    #ici bot niveau moyen (tire aléatoire, si touché tire autour de la case) : à programmer
+
     def bot_difficile():
         global flag_partie_prete
         if flag_partie_prete:
@@ -1567,13 +1590,13 @@ def creation_ecran_jeu():
                 if grille1[i][j] == 0:
                     tour = 2
                     grille1[i][j] = 1
-                    plateau1.itemconfigure(i * 10 + j + 1, fill="#eb4034")
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="white")
                     """label1['text'] = "Votre tour"
                     label1['bg'] = "green"""
                 elif grille1[i][j] == 3:
                     tour = 2
                     grille1[i][j] = 2
-                    plateau1.itemconfigure(i * 10 + j + 1, fill="#80ff00")
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="red")
                     """label1['text'] = "Votre tour"
                     label1['bg'] = "green"""
                 test_victoire1()
