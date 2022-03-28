@@ -765,6 +765,7 @@ def choix_difficulte():
     
 def deblocage_bouton_valider_frame_personnalisation(event):
     global bouton_frame_personnalisation_valider
+    print(entrer_pseudo.get())
     if entrer_pseudo.get() != "" and numero.get() <= 2:
         bouton_frame_personnalisation_valider['state'] = NORMAL
     else:
@@ -1338,8 +1339,78 @@ def creation_ecran_jeu():
                        highlightthickness = 0,
                        width = 100,
                        height = 50)
-        score.grid(row = 10, column = 5, sticky = "nsew")
+        score.grid(row = 5, column = 5, sticky = "nsew")
         score.create_text(70, 50, text = "Score : 0", font = ("Andi 20 bold"), fill = "white")
+        
+        # Placement effectué à la va vite pour des tests
+        action_joueur = Canvas(frame_jeu,
+                                bg = "#141414",
+                                border = 0, 
+                                highlightthickness = 0,
+                                width = 100,
+                                height = 50)
+        action_joueur.grid(row = 16, column = 5, sticky = "nsew")
+        action_joueur.create_text(50, 25, text = "Action J1", font = ("Andi 20 bold"), fill = "white")
+        
+        action_bot = Canvas(frame_jeu,
+                            bg = "#141414",
+                            border = 0, 
+                            highlightthickness = 0,
+                            width = 100,
+                            height = 50)
+        action_bot.grid(row = 16, column = 25, sticky = "nsew")
+        action_bot.create_text(50, 25, text = "Action BOT", font = ("Andi 20 bold"), fill = "white")
+        
+        nom = Canvas(frame_jeu,
+                     width = 200,
+                     height = 50)
+        nom.grid(row = 5, column = 15, sticky = "nsew")
+        nom.create_text(100, 25, text = "pseudo") #entrer_pseudo.get() bug de pseudo???)
+        
+        
+    # Fonction créant les barres de santé (en test)
+    def creation_sante_frame_jeu():
+        sante_joueur = Progressbar(frame_jeu,
+                                    orient = "horizontal",
+                                    length = 350)
+        sante_joueur.grid(row = 8, column = 5, sticky = "nsew")
+        
+        sante_bot = Progressbar(frame_jeu,
+                                orient = "horizontal",
+                                length = 350)
+        sante_bot.grid(row = 8, column = 25, sticky = "nsew")
+        
+        global total_sante
+        total_sante = 100
+        
+        global total_sante_b
+        total_sante_b = 100
+        
+        sante_joueur['value'] = total_sante
+        sante_bot['value'] = total_sante
+        
+        
+        def smash_b():
+            global total_sante_b
+            total_sante_b -= 100/17
+            sante_bot['value'] = total_sante_b
+            # utilite d'un update idletask?
+            
+        def smash_j():
+            global total_sante
+            total_sante -= 100/17
+            sante_joueur['value'] = total_sante
+            
+            
+        hit = Button(frame_jeu,
+                     text = "hit",
+                     command = smash_j)
+        hit.grid(row = 9, column = 5, sticky = "nsew")
+        
+        hit_b = Button(frame_jeu,
+                       text = "hit",
+                       command = smash_b)
+        hit_b.grid(row = 9, column = 25, sticky = "nsew")
         
         
     # Création des boutons dans le frame principal
@@ -1705,4 +1776,5 @@ def creation_ecran_jeu():
     carreaux_jeu()  
     creation_canvas_frame_jeu()
     creation_boutons_frame_jeu()
+    creation_sante_frame_jeu()
     creation_plateaux()
