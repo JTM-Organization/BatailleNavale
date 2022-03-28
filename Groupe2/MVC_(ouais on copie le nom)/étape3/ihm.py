@@ -29,7 +29,7 @@ def select_jouer():
         nb.hide(0)
         nb.hide(2)
 
-def select_paramètres():
+def select_parametres():
     nb.select(2)
     nb.hide(0)
 
@@ -40,7 +40,7 @@ def select_retour():
     nb.hide(2)
 
 Jouer = Button(Base, text="Jouer", command=select_jouer)
-Options = Button(Base, text="Paramètres", command=select_paramètres)
+Options = Button(Base, text="Paramètres", command=select_parametres)
 Quitter = Button(Base, text="Quitter", command=root.quit)
 Jouer.pack()
 Options.pack()
