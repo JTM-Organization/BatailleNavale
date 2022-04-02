@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter import ttk
 import random
 from tkinter import colorchooser
+import PIL
+from PIL import Image,ImageTk
 
 root=Tk()
 root.title('Bataille Navale')
@@ -31,10 +33,15 @@ else:
     hauteur=500
     taille=40
 
+#ia
 global listeCouleur
 listeCouleur=["royal blue","red","grey"]
 
-#liste pour les boutons du joueur 
+#joueur
+global listeCouleurBoard
+listeCouleurBoard=["royal blue","limegreen","grey","red"]
+
+#liste pour les boutons du joueur pour taper le bot
 global L1
 L1=[[]for i in range(100)]
 
@@ -61,8 +68,6 @@ bateau=0
 global horizOuVertical
 horizOuVertical=[0,0,0,0,0]
 
-global listeCouleurBoard
-listeCouleurBoard=["royal blue","limegreen","grey","red"]
 
 #couleur joueur
 global M1
@@ -81,3 +86,18 @@ victoireJoueur=17
 
 global testVictoire
 testVictoire=False
+
+global listeCompteur
+listeCompteur=[5,4,3,3,2,5,4,3,3,2]
+
+global difficult
+difficult=0
+
+global touche
+touche=False
+
+global compteurMoyen
+compteurMoyen=0
+
+global selectDif
+selectDif=False
