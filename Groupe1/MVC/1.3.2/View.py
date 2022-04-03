@@ -2,10 +2,11 @@
 
 
 # Interface graphique
+from multiprocessing.sharedctypes import Value
 from tkinter.filedialog import Open
 import webbrowser
 from Model import *
-from tkinter import ttk
+from tkinter import DISABLED, ttk
 import tkinter as tk
 from tkinter import colorchooser
 from PIL import *
@@ -53,7 +54,7 @@ def launcherTK():
         launcher.resizable(0, 0)
         
         # Définition du logo de la fenêtre
-        launcher.iconbitmap("ancre.ico")
+        launcher.iconbitmap("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\ancre.ico")
         
         # Définition du titre de la fenêtre
         launcher.title("Bataille Navale Launcher")
@@ -85,7 +86,7 @@ def launcherTK():
         
         # Ouverture d'un fichier image
         global bg_launcher
-        bg_launcher = Image.open("launcher_wp.png")
+        bg_launcher = Image.open("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\launcher_wp.png")
         
         # Resize du fichier image à la taille de la fenêtre launcher
         global resized_launcher, new_bg_launcher
@@ -190,7 +191,7 @@ def bouton_launcher_clic():
             launcher.update_idletasks()
             
             # Temps nécessaire pour avancer de 1% dans la barre
-            time.sleep(0.001)
+            time.sleep(0.07)
             
             # Après ce temps, on indente le pourcentage
             compteur += 1
@@ -260,7 +261,7 @@ def rootTK():
         root = Tk()
 
         # Définition du logo de la fenêtre
-        root.iconbitmap("bateau.ico")
+        root.iconbitmap("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\bateau.ico")
         
         # Définition du titre de la fenêtre
         root.title("Bataille Navale")
@@ -443,6 +444,12 @@ def creation_ecran_principal():
         modele_canvas_frame_principal(31, 0, "#141414", 130, 40, "v1.3.1", ("Andi 10"), 30, 20, "#5a3b9c")
         modele_canvas_frame_principal(31, 31, "#141414", 130, 40, "Copyright © 2022 JT", ("Andi 10"), 65, 20, "#5a3b9c")
     
+    def play_music():
+        pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\meow.mp3")
+        pygame.mixer.music.play(loops = 0)
+        pygame.mixer.music.set_volume(0.5)
+    
+    play_music()
     
     # On appelle toutes les fonctions dans creation_ecran_principal() cela amène à la création complète du menu principal
     carreaux_principal()
@@ -496,16 +503,21 @@ def creation_ecran_credits():
             canvas_credits.rowconfigure(i, weight = 1)
             canvas_credits.columnconfigure(i, weight = 1)
         
- 
+        def clic(e):
+            print(e.x, e.y)
+            print(root.winfo_screenwidth())
+
+        canvas_credits.bind("<Button-1>", clic)
+
     def noms_frame_credits():
         global LARGEUR_ECRAN, HAUTEUR_ECRAN
         # Création d'une liste de texte
         global nom
-        nom = ["C R E A T E U R S", "Jawad <     Lorest#5095> MAACHE", "Timothee <     SteelPotato#3653> DA COSTA ...", "D E S I G N E R S", "Jawad <     Lorest#5095> MAACHE", "Timothee <     SteelPotato#3653> DA COSTA ...", "P R O G R A M M A T I O N", "Jawad <     Lorest#5095> MAACHE", "Timothee <     SteelPotato#3653> DA COSTA ...", "R E M E R C I E M E N T S", "Elisee <     Thorgrimm> JOUENNE", "Mathias <     Hiolia> DELMAS", "Joris <     jserrand#3326> SERRAND"]
+        nom = ["C R E A T E U R S", "Jawad <Lorest#5095> MAACHE", "Timothee <SteelPotato#3653> DA COSTA ...", "D E S I G N E R S", "Jawad <Lorest#5095> MAACHE", "Timothee <SteelPotato#3653> DA COSTA ...", "P R O G R A M M A T I O N", "Jawad <Lorest#5095> MAACHE", "Timothee <SteelPotato#3653> DA COSTA ...", "R E M E R C I E M E N T S", "Elisee <Thorgrimm> JOUENNE", "Mathias <Hiolia> DELMAS", "Joris <jserrand#3326> SERRAND"]
     
         # Création d'une liste de coordonnées de placement (hauteur) des textes
         global coord_y1
-        coord_y1 = [1000, 1200, 1300, 1700, 1900, 2000, 2400, 2600, 2700, 3100, 3300, 3400, 3500 ]
+        coord_y1 = [1000, 1150, 1275, 1475, 1625, 1750, 1950, 2100, 2225, 2425, 2575, 2700, 2825]
         
         # Boucle placant les textes sur le canvas
         for i in range(len(nom)):
@@ -520,11 +532,11 @@ def creation_ecran_credits():
     def images_frame_credits():
         global LARGEUR_ECRAN, HAUTEUR_ECRAN
         # Ouvertures d'images
-        lorestImage = PhotoImage(file = "lorest-avatar.png")
-        steelpotatoImage = PhotoImage(file = "steelpotato-avatar.png")
-        thorgrimmImage = PhotoImage(file = "thorgrimm-avatar.png")
-        hioliaImage = PhotoImage(file = "hiolia-avatar.png")
-        jserrandImage = PhotoImage(file = "jserrand-avatar.png")
+        lorestImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\lorest-avatar.png")
+        steelpotatoImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\steelpotato-avatar.png")
+        thorgrimmImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\thorgrimm-avatar.png")
+        hioliaImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\hiolia-avatar.png")
+        jserrandImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\jserrand-avatar.png")
         
         # Création d'une liste d'images
         global image_avatar
@@ -532,8 +544,9 @@ def creation_ecran_credits():
         
         # Création d'une liste de coordonnées de placement (largeur et hauteur) des images
         global coord_x2, coord_y2
-        coord_x2 = [LARGEUR_ECRAN / 2.35 , LARGEUR_ECRAN / 2.64, LARGEUR_ECRAN / 2.35, LARGEUR_ECRAN / 2.64, LARGEUR_ECRAN / 2.35, LARGEUR_ECRAN / 2.64, LARGEUR_ECRAN / 2.32, LARGEUR_ECRAN / 2.11, LARGEUR_ECRAN / 2.56]
-        coord_y2 = [1195, 1295, 1895, 1995, 2595, 2695, 3295, 3395, 3495]
+        coord_x2 = [LARGEUR_ECRAN / 2 , LARGEUR_ECRAN / 2, LARGEUR_ECRAN / 2, LARGEUR_ECRAN / 2, LARGEUR_ECRAN / 2, LARGEUR_ECRAN / 2, LARGEUR_ECRAN / 2, LARGEUR_ECRAN / 2, LARGEUR_ECRAN / 2]
+        coord_y2 = [1200, 1325, 1675, 1800, 2150, 2275, 2625, 2750, 2875]
+
         
         # Boucle placant les images sur le canvas
         for i in range(len(image_avatar)):
@@ -733,9 +746,14 @@ def creation_ecran_personnalisation():
         def fin_survol_valider(event):
             bouton_frame_personnalisation_valider.config(background = foreground_color_valider,
                                                          foreground = background_color_valider)
-            
+
         background_color_valider = "#ffa157"
         foreground_color_valider = "#141414"
+
+        def command_valider():
+            affichage_frame(frame_jeu)
+            pygame.mixer.music.stop()
+
         # On crée le bouton "valider" à part car il subira des changements en fonction de l'utilisateur
         global bouton_frame_personnalisation_valider
         bouton_frame_personnalisation_valider = Button(frame_personnalisation,
@@ -746,7 +764,7 @@ def creation_ecran_personnalisation():
                                                        activeforeground = "#141414",
                                                        activebackground = "#ffa157",
                                                         state = DISABLED,
-                                                       command = lambda:affichage_frame(frame_jeu))
+                                                       command = command_valider)
         
         bouton_frame_personnalisation_valider.bind("<Enter>", survol_valider)
         bouton_frame_personnalisation_valider.bind("<Leave>", fin_survol_valider)
@@ -768,13 +786,13 @@ def creation_ecran_personnalisation():
         
     # Création des boutons radios dans le frame personnalisation
     def creation_boutons_radios_frame_personnalisation():
-        jppImage = Image.open('jpp.jpg')
+        jppImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\jpp.jpg')
         jppImage_redim = jppImage.resize((200,200))
         
-        dignityImage = Image.open('dignity.png')
+        dignityImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\dignity.png')
         dignityImage_redim = dignityImage.resize((200,200))
         
-        zyzzImage = Image.open('zyzz.png')
+        zyzzImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\zyzz.png')
         zyzzImage_redim = zyzzImage.resize((200, 200))
         
         global facile
@@ -868,7 +886,7 @@ def choix_couleur_pseudo():
     
     
 def play_zyzz():
-    pygame.mixer.music.load("sick-cunt.mp3")
+    pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\sick-cunt.mp3")
     pygame.mixer.music.play(loops = 0)
     
         
@@ -1460,11 +1478,13 @@ def creation_ecran_jeu():
         
     # Fonction créant les barres de santé (en test)
     def creation_sante_frame_jeu():
+        global sante_joueur
         sante_joueur = Progressbar(frame_jeu,
                                     orient = "horizontal",
                                     length = 380)
         sante_joueur.grid(row = 8, column = 5, sticky = "nsew")
         
+        global sante_bot
         sante_bot = Progressbar(frame_jeu,
                                 orient = "horizontal",
                                 length = 380)
@@ -1478,30 +1498,6 @@ def creation_ecran_jeu():
         
         sante_joueur['value'] = total_sante
         sante_bot['value'] = total_sante
-        
-        
-        def smash_b():
-            global total_sante_b
-            total_sante_b -= 100/17
-            sante_bot['value'] = total_sante_b
-            # utilite d'un update idletask?
-            
-        def smash_j():
-            global total_sante
-            total_sante -= 100/17
-            sante_joueur['value'] = total_sante
-            
-            
-        hit = Button(frame_jeu,
-                     text = "hit",
-                     command = smash_j)
-        hit.grid(row = 9, column = 5, sticky = "nsew")
-        
-        hit_b = Button(frame_jeu,
-                       text = "hit",
-                       command = smash_b)
-        hit_b.grid(row = 9, column = 25, sticky = "nsew")
-        
         
     # Création des boutons dans le frame principal
     def creation_boutons_frame_jeu():
@@ -1524,8 +1520,8 @@ def creation_ecran_jeu():
             
         def fin_survol_retour(event):
             if bouton_retour_frame_jeu['state'] == NORMAL:
-                bouton_retour_frame_jeu.config(background = "#25dae9",
-                                               foreground = "#ffcc66")
+                bouton_retour_frame_jeu.config(background = "#141414",
+                                               foreground = "#25dae9")
             
             
         def survol_abandon(event):
@@ -1570,6 +1566,7 @@ def creation_ecran_jeu():
             global bouton_jouer_frame_jeu
             flag_partie_prete = True
             bouton_jouer_frame_jeu.destroy()
+            bouton_retour_frame_jeu['state'] = DISABLED
         
         global bouton_placer_frame_jeu
         bouton_placer_frame_jeu = Button(frame_jeu,
@@ -1644,6 +1641,16 @@ def creation_ecran_jeu():
     
 
     # Réaction suite à un clic sur le plateau
+    def play_explosion():
+        pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\explosion.mp3")
+        pygame.mixer.music.play(loops = 0)
+        pygame.mixer.music.set_volume(0.05)
+
+    def play_splash():
+        pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main (1)\\BatailleNavale-main\\Groupe1\\MVC\\1.3.2\\splash.mp3")
+        pygame.mixer.music.play(loops = 0)
+        pygame.mixer.music.set_volume(0.3)
+
     def clic_plateau_jeu1(event):
         global flag_partie_prete
         if flag_partie_prete:
@@ -1678,6 +1685,8 @@ def creation_ecran_jeu():
     
     
     def clic_plateau_jeu2(event):
+        global total_sante_b
+        global sante_bot
         global flag_partie_prete
         print(flag_partie_prete)
         if flag_partie_prete:
@@ -1690,12 +1699,16 @@ def creation_ecran_jeu():
                     tour = 1
                     grille2[i][j] = 1
                     plateau2.itemconfigure(i * 10 + j + 1, fill="white")
+                    play_splash()
                     """label1['text'] = "Tour de l'adversaire"
                     label1['bg'] = "red"""
                 elif grille2[i][j] == 3:
                     tour = 1
                     grille2[i][j] = 2
                     plateau2.itemconfigure(i * 10 + j + 1, fill="red")
+                    total_sante_b -= 100/17
+                    sante_bot['value'] = total_sante_b
+                    play_explosion()
                     """label1['text'] = "Tour de l'adversaire"
                     label1['bg'] = "red"""
                 else:
@@ -1704,13 +1717,17 @@ def creation_ecran_jeu():
             else:
                 print("Ce n'est pas votre tour")
             if niv_facile:
-                frame_jeu.after(300, bot_facile)
-            if niv_moyen or niv_difficile:
-                frame_jeu.after(300, bot_difficile)
+                frame_jeu.after(700, bot_facile)
+            if niv_moyen:
+                frame_jeu.after(700, bot_moyen)
+            if niv_difficile:
+                frame_jeu.after(700, bot_difficile)
         else:
             print("configurer bateaux")
     
     def bot_facile():
+        global total_sante
+        global sante_joueur
         global flag_partie_prete
         if flag_partie_prete:
             global tour
@@ -1725,39 +1742,74 @@ def creation_ecran_jeu():
                     tour = 2
                     grille1[i][j] = 1
                     plateau1.itemconfigure(i * 10 + j + 1, fill="white")
+                    play_splash()
                     """label1['text'] = "Votre tour"
                     label1['bg'] = "green"""
                 elif grille1[i][j] == 3:
                     tour = 2
                     grille1[i][j] = 2
                     plateau1.itemconfigure(i * 10 + j + 1, fill="red")
+                    total_sante -= 100/17
+                    sante_joueur['value'] = total_sante
+                    play_explosion()
                     """label1['text'] = "Votre tour"
                     label1['bg'] = "green"""
                 test_victoire1()
     
-    #ici bot niveau moyen (tire aléatoire, si touché tire autour de la case) : à programmer
-
-    def bot_difficile():
+    def bot_moyen():
         global flag_partie_prete
+        chance = [0,0,0,3]
+        tir = chance[random.randint(0,3)]
         if flag_partie_prete:
             global tour
             print("tour=", tour)
             if tour == 1:
                 i = random.randint(0,9)
                 j = random.randint(0,9)
-                while grille1[i][j] != (3 or 4):
+                while (grille1[i][j] != tir) and (grille1[i][j] != 4):
                     i = random.randint(0,9)
                     j = random.randint(0,9)
                 if grille1[i][j] == 0:
                     tour = 2
                     grille1[i][j] = 1
                     plateau1.itemconfigure(i * 10 + j + 1, fill="white")
+                    play_splash()
                     """label1['text'] = "Votre tour"
                     label1['bg'] = "green"""
                 elif grille1[i][j] == 3:
                     tour = 2
                     grille1[i][j] = 2
                     plateau1.itemconfigure(i * 10 + j + 1, fill="red")
+                    play_explosion()
+                    """label1['text'] = "Votre tour"
+                    label1['bg'] = "green"""
+                test_victoire1()
+
+    def bot_difficile():
+        global flag_partie_prete
+        chance = [0,3]
+        tir = chance[random.randint(0,1)]
+        if flag_partie_prete:
+            global tour
+            print("tour=", tour)
+            if tour == 1:
+                i = random.randint(0,9)
+                j = random.randint(0,9)
+                while (grille1[i][j] != tir) and (grille1[i][j] != 4):
+                    i = random.randint(0,9)
+                    j = random.randint(0,9)
+                if grille1[i][j] == 0:
+                    tour = 2
+                    grille1[i][j] = 1
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="white")
+                    play_splash()
+                    """label1['text'] = "Votre tour"
+                    label1['bg'] = "green"""
+                elif grille1[i][j] == 3:
+                    tour = 2
+                    grille1[i][j] = 2
+                    plateau1.itemconfigure(i * 10 + j + 1, fill="red")
+                    play_explosion()
                     """label1['text'] = "Votre tour"
                     label1['bg'] = "green"""
                 test_victoire1()
