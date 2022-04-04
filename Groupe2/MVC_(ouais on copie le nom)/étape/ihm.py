@@ -20,7 +20,7 @@ nb.add(Debut)
 nb.add(Fin)
 nb.add(Choix)
 
-def select_jouer():
+def play():
     global debut
     if debut==False:
         start()
@@ -28,12 +28,13 @@ def select_jouer():
         nb.hide(0)
         nb.select(3)
         debut=True
-        
+        playsound(r'C:\Users\colin\Downloads\MVC\Bismarck.mp3',False)
     else:
         reecrire()
         nb.select(1)
         nb.hide(0)
         nb.hide(2)
+    
         
 
 def select_paramètres():
@@ -46,7 +47,7 @@ def select_retour():
     nb.hide(1)
     nb.hide(2)
 
-Jouer = Button(Base, text="Jouer", command=select_jouer)
+Jouer = Button(Base, text="Jouer", command=play)
 Options = Button(Base, text="Paramètres", command=select_paramètres)
 Quitter = Button(Base, text="Quitter", command=root.quit)
 Jouer.pack()
@@ -54,10 +55,7 @@ Options.pack()
 Quitter.pack()
 
 
-Retour1 = Button(Plateau, text="Retour", command=select_retour)
-Retour3 = Button(Parametres, text="Retour", command=select_retour)
-Retour1.pack()
-Retour3.pack()
+
 
 nb.hide(1)
 nb.hide(2)
@@ -122,10 +120,10 @@ def tirIaFacile():
         
 
 def tirIaMoyen():
-    global lettre,M1,victoireBot,listeCompteur,compteurMoyen
+    global lettre,M1,victoireBot,listeCompteur,compteurTir
     flag=True
     while flag:
-        if compteurMoyen%4==0:
+        if compteurTir%4==0:
             for i in range(10):
                 for j in range(10):
                     if M1[j][i]>0 and M1[j][i]<42 and flag:
@@ -135,13 +133,13 @@ def tirIaMoyen():
             abscisse=random.randint(0,9)
             flag=tirIaCode(ordonnee,abscisse)
         if not(flag):
-            compteurMoyen+=1
+            compteurTir+=1
 
 def tirIaDifficile():
-    global lettre,M1,victoireBot,listeCompteur,compteurMoyen
+    global lettre,M1,victoireBot,listeCompteur,compteurTir
     flag=True
     while flag:
-        if compteurMoyen%2==0:
+        if compteurTir%2==0:
             ordonnee=random.randint(0,9)
             abscisse=random.randint(0,9)
             flag=tirIaCode(ordonnee,abscisse)
@@ -152,13 +150,13 @@ def tirIaDifficile():
                         flag=tirIaCode(j,i)
             
         if not(flag):
-            compteurMoyen+=1
+            compteurTir+=1
 
 def tirIaImpossible():
-    global lettre,M1,victoireBot,listeCompteur,compteurMoyen
+    global lettre,M1,victoireBot,listeCompteur,compteurTir
     flag=True
     while flag:
-        if compteurMoyen%3==0:
+        if compteurTir%3==0:
             ordonnee=random.randint(0,9)
             abscisse=random.randint(0,9)
             flag=tirIaCode(ordonnee,abscisse)
@@ -169,7 +167,7 @@ def tirIaImpossible():
                         flag=tirIaCode(j,i)
             
         if not(flag):
-            compteurMoyen+=1
+            compteurTir+=1
         
 
 
@@ -214,7 +212,7 @@ def start():
     global L1,listeCouleur,taille,lettre,listeBateau
     for i in range(10):
         for j in range(10):
-            w1=Button(cnv1,bg="royal blue",command=lambda k=i*10+j: tirerJoueur(k))
+            w1=Button(cnv1,bg=listeCouleur[0],command=lambda k=i*10+j: tirerJoueur(k))
             w1.place(x=(i+1)*taille+taille,y=j*taille+40,height=taille,width=taille)
             L1[i*10+j].append(w1)
             l=cnvdebut.create_rectangle(i*80+500,j*80+20,i*80+500+80,j*80+20+80)
@@ -223,12 +221,9 @@ def start():
             labelChiffre.place(x=(i+1)*taille+taille*1.3+(k*taille*16),y=15)
             labelLettre=Label(cnv1,text=lettre[i],bg='grey')
             labelLettre.place(x=3*taille/2+(k*taille*16),y=i*taille+taille*0.8+20)
-    rect0=cnvdebut.create_rectangle(0,100,80*5,180,fill="red")
-    rect1=cnvdebut.create_rectangle(0,200,80*4,280,fill="red")
-    rect2=cnvdebut.create_rectangle(0,300,80*3,380,fill="red")
-    rect3=cnvdebut.create_rectangle(0,400,80*3,480,fill="red")
-    rect4=cnvdebut.create_rectangle(0,500,80*2,580,fill="red")
-    listeBateau=[rect0,rect1,rect2,rect3,rect4]
+    for k in range(5):
+        rect=cnvdebut.create_rectangle(0,100*(k+1),80*(tailleBateau[k]),180+100*k,fill="",outline="")
+        listeBateau.append(rect)
 
     labelJ = Label(cnv1, text='Votre plateau de tir',bg='grey')
     labelJ.place(x=6*taille,y=10*taille+taille/2+30,height=30,width=120)
@@ -269,14 +264,21 @@ def clic2(event):
             if horizOuVertical[bateauClic]==0:
                 cnvdebut.coords(listeBateau[bateauClic],x1,y1,x1+80,y1+80*tailleBateau[bateauClic])
                 horizOuVertical[bateauClic]=1
+                cnvdebut.itemconfig(bateauClic+6,stat='normal')
+                cnvdebut.itemconfig(bateauClic+1,stat='hidden')
             else:   
                 cnvdebut.coords(listeBateau[bateauClic],x1,y1,x1+80*tailleBateau[bateauClic],y1+80)
                 horizOuVertical[bateauClic]=0
+                cnvdebut.itemconfig(bateauClic+1,stat='normal')
+                cnvdebut.itemconfig(bateauClic+6,stat='hidden')
+
 
 def glisser(event):
-    global listeBateau,bateau
+    global listeBateau,bateau,listeImageBateauH,listeImageBateauV,horizOuVertical
     if event.x>cnvdebut.coords(listeBateau[bateau])[0] and event.x<cnvdebut.coords(listeBateau[bateau])[2] and event.y>cnvdebut.coords(listeBateau[bateau])[1] and event.y<cnvdebut.coords(listeBateau[bateau])[3]:
         cnvdebut.move(listeBateau[bateau], event.x-old[0], event.y-old[1])
+        cnvdebut.move(listeImageBateauH[bateau][0],event.x-old[0], event.y-old[1])
+        cnvdebut.move(listeImageBateauV[bateau][0],event.x-old[0], event.y-old[1])
         old[0]=event.x
         old[1]=event.y
 
@@ -302,10 +304,15 @@ def lacher(event):
             testPos=False
         #dessin
     if testPos==True and placerCarre:
+        xB=int((listeImageBateauH[bateau][1])/2)
         if horizOuVertical[bateau]==1:
             cnvdebut.coords(listeBateau[bateau],x*80+20,y*80+20,x*80+20+80,y*80+20+tailleBateau[bateau]*80)
         else:
             cnvdebut.coords(listeBateau[bateau],x*80+20,y*80+20,x*80+20+tailleBateau[bateau]*80,y*80+20+80)
+        #le +40 correspond à la moitié de la taille d'un carré. Avec cette méthode le bateau est centré car sinon il est décalé.
+        #le +20 qu'on retrouve un peu partout permet juste d'avoir une marge entre le haut de la fenêtre et les tableaux.
+        cnvdebut.coords(listeImageBateauH[bateau][0],x*80+20+xB, y*80+20+40)
+        cnvdebut.coords(listeImageBateauV[bateau][0],x*80+20+40, y*80+20+xB)
     #compteur et si bateau pas dedans append
     for contient in range(len(compteurBateau)):
         if compteurBateau[contient]==bateau:
@@ -388,6 +395,7 @@ def on_enter(e):
     if difficult!=3:
         impossible['background'] = 'royal blue'
     e.widget['background'] = 'green'
+    
 def on_leave(e):
     if difficult==0 and e.widget["text"]=="facile":
         e.widget['background'] = 'green'
@@ -407,6 +415,7 @@ def on_leave(e):
         difficile['background'] = 'royal blue'
     if difficult!=3:
         impossible['background'] = 'royal blue'
+
 facile.bind("<Enter>", on_enter)
 facile.bind("<Leave>", on_leave)
 moyen.bind("<Enter>", on_enter)
@@ -457,37 +466,16 @@ def plateauBotAleatoire():
                 compteur+=1
 
 
-def choose_color1():
-    global listeCouleur
-    color_code = colorchooser.askcolor(title ="Choose color") 
-    listeCouleur[0]=color_code[1]
+def choose_color(k):
+    global listeCouleur,listeCouleurBoard
+    if k<3:
+        color_code = colorchooser.askcolor(title ="Choose color") 
+        listeCouleur[k]=color_code[1]
+    else:
+        color_code = colorchooser.askcolor(title ="Choose color") 
+        listeCouleurBoard[k-3]=color_code[1]
     
-def choose_color2():
-    global listeCouleur
-    color_code = colorchooser.askcolor(title ="Choose color") 
-    listeCouleur[1]=color_code[1]
 
-def choose_color3():
-    global listeCouleur
-    color_code = colorchooser.askcolor(title ="Choose color") 
-    listeCouleur[2]=color_code[1]
-
-def choose_color4():
-    global listeCouleurBoard
-    color_code = colorchooser.askcolor(title ="Choose color") 
-    listeCouleurBoard[0]=color_code[1]
-
-def choose_color5():
-    color_code = colorchooser.askcolor(title ="Choose color") 
-    listeCouleurBoard[1]=color_code[1]
-
-def choose_color6():
-    color_code = colorchooser.askcolor(title ="Choose color") 
-    listeCouleurBoard[2]=color_code[1]
-
-def choose_color7():
-    color_code = colorchooser.askcolor(title ="Choose color") 
-    listeCouleurBoard[3]=color_code[1]
 
 
 def reecrire():
@@ -516,19 +504,98 @@ def reecrire():
                     w1=cnv1.create_rectangle(x,y,x+taille,y+taille,fill=str(listeCouleur[2]))
                 elif M2[k%10][k//10]==98:
                     w1=cnv1.create_rectangle(x,y,x+taille,y+taille,fill=str(listeCouleur[1]))
-    
-    
-couleur1 = Button(cnvParametres, text = "Couleur case vierge adversaire",command = choose_color1)
-couleur1.pack()
-couleur2 = Button(cnvParametres, text = "Couleur bateau touché adversaire",command = choose_color2)
-couleur2.pack()
-couleur3 = Button(cnvParametres, text = "Couleur eau touchée adversaire",command = choose_color3)
-couleur3.pack()
-couleur4 = Button(cnvParametres, text = "Couleur eau joueur",command = choose_color4)
-couleur4.pack()
-couleur5 = Button(cnvParametres, text = "Couleur bateau joueur",command = choose_color5)
-couleur5.pack()
-couleur6 = Button(cnvParametres, text = "Couleur eau touché joueur",command = choose_color6)
-couleur6.pack()
-couleur7 = Button(cnvParametres, text = "Couleur bateau touchée joueur",command = choose_color7)
-couleur7.pack()
+
+def dessinerBoutonParametre():
+    global hauteur
+    distance=(hauteur-(hauteur/5))/3    
+    couleur1 = Button(cnvParametres,bg="grey", text = "Couleur case vierge adversaire",command = lambda: choose_color(0))
+    couleur1.place(x=0,y=hauteur/5,height=distance,width=largeur/2)
+    couleur2 = Button(cnvParametres,bg="grey", text = "Couleur bateau touché adversaire",command = lambda:choose_color(1))
+    couleur2.place(x=0,y=hauteur/5+distance,height=distance,width=largeur/2)
+    couleur3 = Button(cnvParametres,bg="grey", text = "Couleur eau touchée adversaire",command = lambda:choose_color(2))
+    couleur3.place(x=0,y=hauteur/5+distance*2,height=distance,width=largeur/2)
+
+    couleur4 = Button(cnvParametres,bg="grey", text = "Couleur eau joueur",command = lambda:choose_color(3))
+    couleur4.place(x=largeur/2,y=hauteur/5,height=hauteur/5,width=largeur/2)
+    couleur5 = Button(cnvParametres,bg="grey", text = "Couleur bateau joueur",command = lambda:choose_color(4))
+    couleur5.place(x=largeur/2,y=hauteur*2/5,height=hauteur/5,width=largeur/2)
+    couleur6 = Button(cnvParametres,bg="grey", text = "Couleur eau touché joueur",command =lambda: choose_color(5))
+    couleur6.place(x=largeur/2,y=hauteur*3/5,height=hauteur/5,width=largeur/2)
+    couleur7 = Button(cnvParametres,bg="grey", text = "Couleur bateau touchée joueur",command =lambda: choose_color(6))
+    couleur7.place(x=largeur/2,y=hauteur*4/5,height=hauteur/5,width=largeur/2)
+
+dessinerBoutonParametre()
+
+Retour1 = Button(cnv1,bg="#AAAAAA", text="Retour", command=select_retour)
+Retour3 = Button(cnvParametres,bg="#AAAAAA", text="Retour", command=select_retour)
+Retour1.place(x=largeur/2-taille/2,y=0,width=taille*2,height=taille)
+Retour3.place(x=0,y=0,height=hauteur/5,width=largeur)
+
+#bateau à l'horizontale
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\bateau1.png")
+new_Ima=Ima.resize((400,80),Image.ANTIALIAS)
+photo1 = ImageTk.PhotoImage(new_Ima)
+b1=cnvdebut.create_image((200,140), image = photo1)
+
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\bateau2.png")
+new_Ima=Ima.resize((320,80),Image.ANTIALIAS)
+photo2 = ImageTk.PhotoImage(new_Ima)
+b2=cnvdebut.create_image((160,240), image = photo2)
+
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\bateau3.png")
+new_Ima=Ima.resize((240,80),Image.ANTIALIAS)
+photo3 = ImageTk.PhotoImage(new_Ima)
+b3=cnvdebut.create_image((120,340), image = photo3)
+
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\bateau3.png")
+new_Ima=Ima.resize((240,80),Image.ANTIALIAS)
+photo4 = ImageTk.PhotoImage(new_Ima)
+b4=cnvdebut.create_image((120,440), image = photo4)
+
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\petitbateau.png")
+new_Ima=Ima.resize((160,80),Image.ANTIALIAS)
+photo5 = ImageTk.PhotoImage(new_Ima)
+b5=cnvdebut.create_image((80,540), image = photo5)
+
+#bateau à la verticale
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\bateau1V.png")
+new_Ima=Ima.resize((80,400),Image.ANTIALIAS)
+photo6 = ImageTk.PhotoImage(new_Ima)
+b1V=cnvdebut.create_image((200,140), image = photo6)
+
+
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\bateau2V.png")
+new_Ima=Ima.resize((80,320),Image.ANTIALIAS)
+photo7 = ImageTk.PhotoImage(new_Ima)
+b2V=cnvdebut.create_image((160,240), image = photo7)
+
+
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\bateau3V.png")
+new_Ima=Ima.resize((80,240),Image.ANTIALIAS)
+photo8 = ImageTk.PhotoImage(new_Ima)
+b3V=cnvdebut.create_image((120,340), image = photo8)
+
+
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\bateau3V.png")
+new_Ima=Ima.resize((80,240),Image.ANTIALIAS)
+photo9 = ImageTk.PhotoImage(new_Ima)
+b4V=cnvdebut.create_image((120,440), image = photo9)
+
+
+Ima=Image.open(r"C:\Users\colin\Downloads\MVC\petitbateauV.png")
+new_Ima=Ima.resize((80,160),Image.ANTIALIAS)
+photo10 = ImageTk.PhotoImage(new_Ima)
+b5V=cnvdebut.create_image((80,540), image = photo10)
+for i in range(5):
+    cnvdebut.itemconfig(i+6,stat='hidden')
+
+listeImageBateauH.append((b1,400))
+listeImageBateauH.append((b2,320))
+listeImageBateauH.append((b3,240))
+listeImageBateauH.append((b4,240))
+listeImageBateauH.append((b5,160))
+listeImageBateauV.append((b1V,400))
+listeImageBateauV.append((b2V,320))
+listeImageBateauV.append((b3V,240))
+listeImageBateauV.append((b4V,240))
+listeImageBateauV.append((b5V,160))
