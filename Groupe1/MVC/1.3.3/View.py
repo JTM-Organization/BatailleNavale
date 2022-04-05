@@ -60,7 +60,7 @@ def launcherTK():
         launcher.resizable(0, 0)
         
         # Définition du logo de la fenêtre
-        launcher.iconbitmap("ancre.ico")
+        launcher.iconbitmap("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\LOGO\\ancre.ico")
         
         # Définition du titre de la fenêtre
         launcher.title("Bataille Navale Launcher")
@@ -93,7 +93,7 @@ def launcherTK():
         
         # Ouverture d'un fichier image
         global bg_launcher
-        bg_launcher = Image.open("launcher_wp.png")
+        bg_launcher = Image.open("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\WP\\launcher_wp.png")
         
         # Resize du fichier image à la taille de la fenêtre launcher
         global resized_launcher, new_bg_launcher
@@ -270,7 +270,7 @@ def rootTK():
         root = Tk()
 
         # Définition du logo de la fenêtre
-        root.iconbitmap("bateau.ico")
+        root.iconbitmap("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\LOGO\\bateau.ico")
         
         # Définition du titre de la fenêtre
         root.title("Bataille Navale")
@@ -472,7 +472,7 @@ Partie commandes menu principal
     
 
 def play_music():
-    pygame.mixer.music.load("meow.mp3")
+    pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\OST\\meow.mp3")
     pygame.mixer.music.play(loops = 0)
     pygame.mixer.music.set_volume(0.0)
 
@@ -564,11 +564,11 @@ def creation_ecran_credits():
         global LARGEUR_ECRAN, HAUTEUR_ECRAN
         
         # Ouvertures d'images
-        lorestImage = PhotoImage(file = "lorest-avatar.png")
-        steelpotatoImage = PhotoImage(file = "steelpotato-avatar.png")
-        thorgrimmImage = PhotoImage(file = "thorgrimm-avatar.png")
-        hioliaImage = PhotoImage(file = "hiolia-avatar.png")
-        jserrandImage = PhotoImage(file = "jserrand-avatar.png")
+        lorestImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\AVATAR\\lorest-avatar.png")
+        steelpotatoImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\AVATAR\\steelpotato-avatar.png")
+        thorgrimmImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\AVATAR\\thorgrimm-avatar.png")
+        hioliaImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\AVATAR\\hiolia-avatar.png")
+        jserrandImage = PhotoImage(file = "C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\AVATAR\\jserrand-avatar.png")
         
         # Création d'une liste d'images
         global image_avatar
@@ -876,17 +876,17 @@ def creation_ecran_personnalisation():
     # Création des boutons radios dans le frame personnalisation
     def creation_boutons_radios_frame_personnalisation():
         # Ouverture d'images et redimensionnement de ces dernières
-        jppImage = Image.open('jpp.jpg')
+        jppImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\jpp.jpg')
         jppImage_redim = jppImage.resize((200,200))
         global facileImage
         facileImage = ImageTk.PhotoImage(jppImage_redim)
         
-        dignityImage = Image.open('dignity.png')
+        dignityImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\dignity.png')
         dignityImage_redim = dignityImage.resize((200,200))
         global normalImage
         normalImage = ImageTk.PhotoImage(dignityImage_redim)
         
-        zyzzImage = Image.open('zyzz.png')
+        zyzzImage = Image.open('C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\zyzz.png')
         zyzzImage_redim = zyzzImage.resize((200, 200))
         global difficileImage
         difficileImage = ImageTk.PhotoImage(zyzzImage_redim)
@@ -965,6 +965,8 @@ def choix_difficulte():
     if numero.get() == 0:
         # Flag de difficulté enclenché
         niv_facile = True
+        niv_moyen = False
+        niv_difficile = False
         # Actualisation du texte
         canvas_frame_personnalisation.itemconfig(1, text = "F A I B L E")
     
@@ -972,6 +974,8 @@ def choix_difficulte():
     if numero.get() == 1:
         # Flag de difficulté enclenché
         niv_moyen = True
+        niv_facile = False
+        niv_difficile = False
         # Actualisation du texte
         canvas_frame_personnalisation.itemconfig(1, text = "B A S T O N")
 
@@ -979,6 +983,8 @@ def choix_difficulte():
     if numero.get() == 2:
         # Flag de difficulté enclenché
         niv_difficile = True
+        niv_facile = False
+        niv_moyen = False
         # Actualisation du texte
         canvas_frame_personnalisation.itemconfig(1, text = "F O R T")
         # Effet sonore
@@ -1349,14 +1355,14 @@ Partie commandes menu jeu
 
 # Réaction suite à un clic sur le plateau (bateau touché)
 def play_explosion():
-    pygame.mixer.music.load("explosion.mp3")
+    pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\OST\\explosion.mp3")
     pygame.mixer.music.play(loops = 0)
     pygame.mixer.music.set_volume(0.05)
 
 
 # Réaction suite à un clic sur le plateau (bateau raté)
 def play_splash():
-    pygame.mixer.music.load("splash.mp3")
+    pygame.mixer.music.load("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\OST\\splash.mp3")
     pygame.mixer.music.play(loops = 0)
     pygame.mixer.music.set_volume(0.3)
 
@@ -1377,6 +1383,7 @@ def lancement_jouer():
     
 # Attribution de l'intéraction utilisateur avec le plateau 2
 def bind_jeu():
+    creer_symboles()
     plateau2.bind("<Button-1>", clic_plateau_jeu2)
     
     
@@ -1409,8 +1416,20 @@ def clic_plateau_jeu1(event):
     else:
         print("configurer bateaux")
 
+def creer_symboles():
+    global explo
+    explosion_img = ("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\explosion.png")
+    explo = ImageTk.PhotoImage(file = explosion_img)
+
+    global plouf
+    plouf_img = ("C:\\Users\\jawad\\OneDrive\\Bureau\\Python\\Projet Python\\BatailleNavale-main\\Groupe1\\MVC\\1.3.3\\Images\\plouf.png")
+    plouf = ImageTk.PhotoImage(file = plouf_img)
 
 def clic_plateau_jeu2(event):
+    global explo
+    global affich_explo
+    global plouf
+    global affich_plouf
     global total_sante_b
     global sante_bot
     global flag_partie_prete
@@ -1424,12 +1443,12 @@ def clic_plateau_jeu2(event):
             if grille2[i][j] == 0:
                 tour = 1
                 grille2[i][j] = 1
-                plateau2.itemconfigure(i * 10 + j + 1, fill="white")
+                affich_plouf = plateau2.create_image(j*TAILLE_DE_CARRES+3,i*TAILLE_DE_CARRES+3, image = plouf, anchor=NW)
                 play_splash()
             elif grille2[i][j] == 3:
                 tour = 1
                 grille2[i][j] = 2
-                plateau2.itemconfigure(i * 10 + j + 1, fill="red")
+                affich_explo = plateau2.create_image(j*TAILLE_DE_CARRES+2,i*TAILLE_DE_CARRES, image = explo, anchor=NW)
                 total_sante_b -= 100/17
                 sante_bot['value'] = total_sante_b
                 play_explosion()
@@ -1450,6 +1469,10 @@ def clic_plateau_jeu2(event):
                  
 # Actions du bot si difficulté facile enclenchée
 def bot_facile():
+    global explo
+    global affich_explo
+    global plouf
+    global affich_plouf
     global total_sante
     global sante_joueur
     global flag_partie_prete
@@ -1465,12 +1488,12 @@ def bot_facile():
             if grille1[i][j] == 0:
                 tour = 2
                 grille1[i][j] = 1
-                plateau1.itemconfigure(i * 10 + j + 1, fill="white")
+                affich_plouf = plateau1.create_image(j*TAILLE_DE_CARRES+3,i*TAILLE_DE_CARRES+3, image = plouf, anchor=NW)
                 play_splash()
             elif grille1[i][j] == 3:
                 tour = 2
                 grille1[i][j] = 2
-                plateau1.itemconfigure(i * 10 + j + 1, fill="red")
+                affich_explo = plateau1.create_image(j*TAILLE_DE_CARRES+2,i*TAILLE_DE_CARRES, image = explo, anchor=NW)
                 total_sante -= 100/17
                 sante_joueur['value'] = total_sante
                 play_explosion()
@@ -1479,6 +1502,12 @@ def bot_facile():
 
 # Action du bot si difficulté moyen enclenchée
 def bot_moyen():
+    global explo
+    global affich_explo
+    global plouf
+    global affich_plouf
+    global total_sante
+    global sante_joueur
     global flag_partie_prete
     chance = [0,0,0,3]
     tir = chance[random.randint(0,3)]
@@ -1494,18 +1523,26 @@ def bot_moyen():
             if grille1[i][j] == 0:
                 tour = 2
                 grille1[i][j] = 1
-                plateau1.itemconfigure(i * 10 + j + 1, fill="white")
+                affich_plouf = plateau1.create_image(j*TAILLE_DE_CARRES+3,i*TAILLE_DE_CARRES+3, image = plouf, anchor=NW)
                 play_splash()
             elif grille1[i][j] == 3:
                 tour = 2
                 grille1[i][j] = 2
-                plateau1.itemconfigure(i * 10 + j + 1, fill="red")
+                affich_explo = plateau1.create_image(j*TAILLE_DE_CARRES+2,i*TAILLE_DE_CARRES, image = explo, anchor=NW)
+                total_sante -= 100/17
+                sante_joueur['value'] = total_sante
                 play_explosion()
             test_victoire1()
 
 
 # Action du bot si difficulté difficile enclenchée
 def bot_difficile():
+    global explo
+    global affich_explo
+    global plouf
+    global affich_plouf
+    global total_sante
+    global sante_joueur
     global flag_partie_prete
     chance = [0,3]
     tir = chance[random.randint(0,1)]
@@ -1521,12 +1558,14 @@ def bot_difficile():
             if grille1[i][j] == 0:
                 tour = 2
                 grille1[i][j] = 1
-                plateau1.itemconfigure(i * 10 + j + 1, fill="white")
+                affich_plouf = plateau1.create_image(j*TAILLE_DE_CARRES+3,i*TAILLE_DE_CARRES+3, image = plouf, anchor=NW)
                 play_splash()
             elif grille1[i][j] == 3:
                 tour = 2
                 grille1[i][j] = 2
-                plateau1.itemconfigure(i * 10 + j + 1, fill="red")
+                affich_explo = plateau1.create_image(j*TAILLE_DE_CARRES+2,i*TAILLE_DE_CARRES, image = explo, anchor=NW)
+                total_sante -= 100/17
+                sante_joueur['value'] = total_sante
                 play_explosion()
             test_victoire1()
 
